@@ -165,20 +165,4 @@ var styles = StyleSheet.create({
   },
 });
 
-var games = [
-  { uri: 'http://static-cdn.jtvnw.net/ttv-boxart/Hearthstone:%20Heroes%20of%20Warcraft-272x380.jpg', key: 0, name: 'Hearthstone: Heroes of Warcraft'},
-  { uri: 'http://static-cdn.jtvnw.net/ttv-boxart/Counter-Strike:%20Global%20Offensive-272x380.jpg', key: 1, name: 'Counter-Strike: Global Offensive'},
-  { uri: 'http://static-cdn.jtvnw.net/ttv-boxart/Dota%202-272x380.jpg', key: 2, name: 'Dota 2'},
-  { uri: 'http://static-cdn.jtvnw.net/ttv-boxart/League%20of%20Legends-272x380.jpg', key: 3, name: 'League of Legends'},
-  { uri: 'http://static-cdn.jtvnw.net/ttv-boxart/StarCraft%20II-272x380.jpg', key: 4, name: 'StarCraft 2'},
-  { uri: 'http://static-cdn.jtvnw.net/ttv-boxart/World%20of%20Warcraft-272x380.jpg', key: 5, name: 'World of Warcraft'},
-  { uri: 'http://static-cdn.jtvnw.net/ttv-boxart/World%20of%20Tanks-272x380.jpg', key: 6, name: 'World of Tanks'},
-  { uri: 'http://static-cdn.jtvnw.net/ttv-boxart/Grand%20Theft%20Auto%20V-272x380.jpg', key: 7, name: 'Grand Theft Auto'},
-  { uri: 'http://static-cdn.jtvnw.net/ttv-boxart/Destiny-272x380.jpg', key: 8, name: 'Destiny'},
-  { uri: 'http://static-cdn.jtvnw.net/ttv-boxart/RuneScape-272x380.jpg', key: 9, name: 'RuneScape'},
-
-].reverse();
-
-var desc = "Leah (who really, really loves Master Chief) is a huge Halo and Destiny fan from the UK. Expect to see ridiculous enthusiasm, a lot of smiling and laughter, many grenades thrown into walls, 'fabulous hair', and the occasional clutch play here and there for good measure."
-
 AppRegistry.registerComponent('twitch', () => App);
