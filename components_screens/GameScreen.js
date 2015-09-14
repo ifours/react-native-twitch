@@ -76,7 +76,7 @@ var GameStreams = React.createClass({
 
   render: function() {
     var marginTop = this.state.currentStreamIsOn ? 90 : 0;
-    
+
     return (
       <View style={{flex: 1, marginTop}}>
         <ScrollView>

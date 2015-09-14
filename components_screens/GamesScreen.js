@@ -9,6 +9,7 @@ var {
   Text,
   View,
   Image,
+  Animated,
   ScrollView,
   NavigatorIOS,
   TouchableHighlight,
@@ -20,6 +21,56 @@ var GameScreen = require('./GameScreen');
 var applicationStore = require('../stores/applicationStore');
 
 var SCREEN_WIDTH = Dimensions.get('window').width;
+
+var Game = React.createClass({
+  getInitialState: function() {
+    return {
+       bounceValue: new Animated.Value(0),
+    }
+  },
+
+  _onImageLoad: function() {
+    Animated.timing(
+      this.state.bounceValue,
+      {
+        toValue: 1,
+        // duration: 200,
+      }
+    ).start();
+  },
+
+  render: function() {
+    // TODO: replace two Image with one
+    return (
+      <TouchableHighlight
+        style={styles.gameView}
+        underlayColor='#f1f1f1'
+        onPress={ this.props.onPressGame }
+      >
+        <View style={styles.gameContainer}>
+          <Image
+            style={styles.gameImg}
+
+            source={require('image!boxart')}
+
+            resizeMode="contain"
+          />
+          <Animated.Image
+            style={[styles.gameImg, {position: 'absolute', top: 0, left: 0, opacity: this.state.bounceValue}]}
+            source={{uri: this.props.game.uri}}
+
+            ref={(game) => {
+              this.game = game;
+            }}
+
+            resizeMode="contain"
+            onLoaded={ this._onImageLoad }
+          />
+        </View>
+      </TouchableHighlight>
+    );
+  },
+});
 
 var GamesScreen = React.createClass({
   getInitialState: function() {
@@ -55,22 +106,7 @@ var GamesScreen = React.createClass({
   },
 
   renderGame: function(game) {
-    return (
-      <TouchableHighlight
-        key={game.key}
-        style={styles.gameView}
-        underlayColor='#f1f1f1'
-        onPress={() => this._onPressGame(game) }
-      >
-        <View style={styles.gameContainer}>
-          <Image
-            style={styles.gameImg}
-            source={{uri: game.uri}}
-            resizeMode="contain"
-          />
-        </View>
-      </TouchableHighlight>
-    );
+    return <Game game={game} key={game.key} onPressGame={() => this._onPressGame(game) }/>
   },
 
   renderGames: function() {
@@ -108,20 +144,16 @@ var styles = StyleSheet.create({
   gameView: {
     marginLeft: imgMargin,
     marginTop: imgMargin,
-    backgroundColor: 'grey', 
-    // paddingLeft: 15,
-    // paddingTop: 15,
-    // paddingRight: 15,
   },
 
   gameContainer: {
     flexDirection: 'row',
+    position: 'relative',
   },
 
   gameImg: {
     width: imgWidth,
     height: imgHeight,
-    // borderRadius: 30,
   },
 
   gameText: {
