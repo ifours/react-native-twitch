@@ -4,13 +4,11 @@ var React = require('react-native');
 var Dimensions = require('Dimensions');
 var Drawer = require('react-native-drawer');
 
-var GameStreams = require('./components_screens/GameScreen');
-var DrawerScreen = require('./components_screens/DrawerScreen');
-var CurrentStream = require('./components/CurrentStream'),
+var DrawerScreen = require('./components_screens/DrawerScreen'),
+  CurrentStream = require('./components/CurrentStream'),
   GamesScreen = require('./components_screens/GamesScreen');
 
-
-var currentStreamIsOn = require('./stores/globals');
+var applicationActions = require('./actions/applicationActions');
 
 var SCREEN_WIDTH = Dimensions.get('window').width;
 var openDrawerOffset = 75;
@@ -39,15 +37,14 @@ var MainView = React.createClass({
   },
 
   emitCurrentStream: function(stream) {
+    applicationActions.changeCurrentStreamStatus(!!stream);
     this.setState({ currentStream: stream });
   },
 
   renderCurrentStream: function() {
     if (!this.state.currentStream) {
-      currentStreamIsOn.set(false);
       return null;
     }
-    currentStreamIsOn.set(true);
     return (
       <CurrentStream stream={this.state.currentStream} setCurrentStream={this.emitCurrentStream}/>
     );
@@ -77,9 +74,6 @@ var MainView = React.createClass({
             passProps: {
               closeDrawer: this.props.closeDrawer,
               emitCurrentStream: this.emitCurrentStream,
-              currentStreamIsOn: {
-                value: !!this.state.currentStream
-              },
             },
           }}
         />
@@ -122,7 +116,6 @@ var imgRatio = 202 / 145,
   imgMargin = 15,
   perRow = 2,
   imgWidth = (SCREEN_WIDTH - imgMargin * (perRow + 1)) / perRow,
-  // imgWidth = 100,
   imgHeight = imgRatio * imgWidth;
 
 var styles = StyleSheet.create({
@@ -139,9 +132,6 @@ var styles = StyleSheet.create({
     marginLeft: imgMargin,
     marginTop: imgMargin,
     backgroundColor: 'grey', 
-    // paddingLeft: 15,
-    // paddingTop: 15,
-    // paddingRight: 15,
   },
 
   gameContainer: {
@@ -151,7 +141,6 @@ var styles = StyleSheet.create({
   gameImg: {
     width: imgWidth,
     height: imgHeight,
-    // borderRadius: 30,
   },
 
   gameText: {

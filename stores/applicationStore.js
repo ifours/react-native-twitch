@@ -4,17 +4,21 @@ var dispatcher = require('../AppDispatcher'),
   EventEmitter = require('events'),
   assign = require('object-assign');
 
-var сonstants = require('../constants/gamesConstants');
+var сonstants = require('../constants/applicationConstants');
 
-var EVENT = 'fromGamesStore';
+var EVENT = 'fromApplicationStore';
 
 var _state = {
-  games: require('../mock_data/games'),
+  currentStreamIsOn: false
 };
 
 var store = assign({}, EventEmitter.prototype, {
   getState: function() {
     return _state;
+  },
+
+  getCurrentStreamStatus: function() {
+    return _state.currentStreamIsOn;
   },
 
   emitChange: function() {
@@ -30,7 +34,12 @@ var store = assign({}, EventEmitter.prototype, {
   },
 
   dispatchToken: dispatcher.register(function(action) {
-
+    switch(action.actionType) {
+      case сonstants.CURRENT_STREAM:
+        _state.currentStreamIsOn = action.value;
+        store.emitChange();
+        break;
+    }
   }),
 });
 

@@ -17,9 +17,7 @@ var {
 
 var GameScreen = require('./GameScreen');
 
-var currentStreamIsOn = require('../stores/globals');
-
-// var gamesStore = require('../stores/gamesStore');
+var applicationStore = require('../stores/applicationStore');
 
 var SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -27,11 +25,28 @@ var GamesScreen = React.createClass({
   getInitialState: function() {
     return {
       games: require('../mock_data/games'),
+      currentStreamIsOn: applicationStore.getCurrentStreamStatus(),
     }
+  },
+
+  componentDidMount: function() {
+    applicationStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    applicationStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    // TODO:
+    this.setState({
+      currentStreamIsOn: applicationStore.getCurrentStreamStatus()
+    });
   },
 
   _onPressGame: function(game) {
     this.props.closeDrawer();
+
     this.props.navigator.push({
       title: game.name,
       component: GameScreen,
@@ -63,7 +78,8 @@ var GamesScreen = React.createClass({
   },
 
   render: function() {
-    var marginTop = currentStreamIsOn.get() ? 90 : 0;
+    var marginTop = this.state.currentStreamIsOn ? 90 : 0;
+
     return (
       <ScrollView contentContainerStyle={[styles.container, { marginTop }]}>
         {this.renderGames()}

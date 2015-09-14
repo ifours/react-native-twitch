@@ -20,14 +20,30 @@ var StreamScreen = require('./StreamScreen'),
   Stream = require('../components/Stream'),
   MiniStream = require('../components/MiniStream');
 
-var currentStreamIsOn  = require('../stores/globals');
+var applicationStore = require('../stores/applicationStore');
 
 var GameStreams = React.createClass({
   getInitialState: function() {
     return {
       streams,
       miniStreams,
+      currentStreamIsOn: applicationStore.getCurrentStreamStatus(),
     };
+  },
+
+  componentDidMount: function() {
+    applicationStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    applicationStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    // TODO:
+    this.setState({
+      currentStreamIsOn: applicationStore.getCurrentStreamStatus()
+    });
   },
 
   renderStream: function(stream) {
@@ -59,7 +75,8 @@ var GameStreams = React.createClass({
   },
 
   render: function() {
-    var marginTop = currentStreamIsOn.get() ? 90 : 0;
+    var marginTop = this.state.currentStreamIsOn ? 90 : 0;
+    
     return (
       <View style={{flex: 1, marginTop}}>
         <ScrollView>
