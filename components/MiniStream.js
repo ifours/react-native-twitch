@@ -12,6 +12,8 @@ var {
   TouchableHighlight,
 } = React;
 
+var StreamScreen = require('../components_screens/StreamScreen');
+
 var MiniStream = React.createClass({
   _onPressStream: function(stream) {
     this.props.navigator.push({

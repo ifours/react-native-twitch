@@ -6,7 +6,10 @@ var Drawer = require('react-native-drawer');
 
 var GameStreams = require('./components_screens/GameScreen');
 var DrawerScreen = require('./components_screens/DrawerScreen');
-var CurrentStream = require('./components/CurrentStream');
+var CurrentStream = require('./components/CurrentStream'),
+  GamesScreen = require('./components_screens/GamesScreen');
+
+
 var currentStreamIsOn = require('./stores/globals');
 
 var SCREEN_WIDTH = Dimensions.get('window').width;
@@ -27,57 +30,6 @@ var {
 } = React;
 
 StatusBarIOS.setStyle('light-content');
-
-var twitch = React.createClass({
-  getInitialState: function() {
-    return { games };
-  },
-
-  _onPressGame: function(game) {
-    this.props.closeDrawer();
-    this.props.navigator.push({
-      title: game.name,
-      component: GameStreams,
-      passProps: { game, emitCurrentStream: this.props.emitCurrentStream },
-    });
-  },
-
-  renderGame: function(game) {
-    return (
-      <TouchableHighlight
-        key={game.key}
-        style={styles.gameView}
-        underlayColor='#f1f1f1'
-        onPress={() => this._onPressGame(game) }
-      >
-        <View style={styles.gameContainer}>
-          <Image
-            style={styles.gameImg}
-            source={{uri: game.uri}}
-            resizeMode="contain"
-          />
-        </View>
-      </TouchableHighlight>
-    );
-  },
-
-  componentWillReceiveProps: function(nextProps) {
-
-  },
-
-  renderGames: function() {
-    return this.state.games.map(this.renderGame);
-  },
-
-  render: function() {
-    var marginTop = currentStreamIsOn.get() ? 90 : 0;
-    return (
-      <ScrollView contentContainerStyle={[styles.container, { marginTop }]}>
-        {this.renderGames()}
-      </ScrollView>
-    );
-  }
-});
 
 var MainView = React.createClass({
   getInitialState: function() {
@@ -112,7 +64,7 @@ var MainView = React.createClass({
           tintColor='#fff'
           ref="nav"
           initialRoute={{
-            component: twitch,
+            component: GamesScreen,
             title: 'Games',
             leftButtonIcon: require('image!tabnav_list'),
             onLeftButtonPress: () => {
