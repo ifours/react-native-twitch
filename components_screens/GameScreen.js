@@ -16,11 +16,11 @@ var {
 } = React;
 
 var StreamScreen = require('./StreamScreen'),
-  CurrentStream = require('./CurrentStream'),
-  Stream = require('./Stream'),
-  MiniStream = require('./MiniStream');
+  CurrentStream = require('../components/CurrentStream'),
+  Stream = require('../components/Stream'),
+  MiniStream = require('../components/MiniStream');
 
-var currentStreamIsOn  = require('./globals');
+var currentStreamIsOn  = require('../stores/globals');
 
 var GameStreams = React.createClass({
   getInitialState: function() {

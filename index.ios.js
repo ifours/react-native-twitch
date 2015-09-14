@@ -1,17 +1,13 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 'use strict';
 
 var React = require('react-native');
 var Dimensions = require('Dimensions');
 var Drawer = require('react-native-drawer');
 
-var GameStreams = require('./GameScreen');
-var DrawerScreen = require('./DrawerScreen');
-var CurrentStream = require('./CurrentStream');
-var currentStreamIsOn = require('./globals');
+var GameStreams = require('./components_screens/GameScreen');
+var DrawerScreen = require('./components_screens/DrawerScreen');
+var CurrentStream = require('./components/CurrentStream');
+var currentStreamIsOn = require('./stores/globals');
 
 var SCREEN_WIDTH = Dimensions.get('window').width;
 var openDrawerOffset = 75;

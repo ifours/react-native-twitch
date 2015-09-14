@@ -15,7 +15,7 @@ var {
   TouchableHighlight,
 } = React;
 
-var StreamScreen = require('./StreamScreen');
+var StreamScreen = require('../components_screens/StreamScreen');
 
 var styles = require('./stream_styles');
 
