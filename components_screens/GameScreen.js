@@ -16,6 +16,7 @@ var {
 } = React;
 
 var StreamScreen = require('./StreamScreen'),
+  ChannelsTabs = require('../components/ChannelsTabs'),
   CurrentStream = require('../components/CurrentStream'),
   Stream = require('../components/Stream'),
   MiniStream = require('../components/MiniStream');
@@ -83,6 +84,7 @@ var GameStreams = React.createClass({
           {this.renderStreams()}
           {this.renderMiniStreams()}
         </ScrollView>
+        <ChannelsTabs />
       </View>
     );
   }
