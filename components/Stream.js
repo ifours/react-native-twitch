@@ -23,18 +23,28 @@ var Stream = React.createClass({
   getInitialState: function() {
     return {
       bounceValueScale: new Animated.Value(1),
-      bounceValue: new Animated.Value(-200 * (this.props.stream.key + 1))
+      bounceValueOpacity: new Animated.Value(0),
+      bounceValueTranslateY: new Animated.Value(-200 * (this.props.stream.key + 1))
     };
   },
 
   componentDidMount: function() {
-    Animated.timing(
-      this.state.bounceValue,
-      {
-        toValue: 0,
-        duration: 300,
-      }
-    ).start();
+    Animated.parallel([
+      Animated.timing(
+        this.state.bounceValueTranslateY,
+        {
+          toValue: 0,
+          duration: 300,
+        }
+      ),
+      Animated.timing(
+        this.state.bounceValueOpacity,
+        {
+          toValue: 1,
+          duration: 200,
+        }
+      ),
+    ]).start();
   },
 
   animatePressIn: function() {
@@ -83,8 +93,9 @@ var Stream = React.createClass({
       >
         <Animated.View
           style={[styles.streamView, {
+            opacity: this.state.bounceValueOpacity,
             transform: [
-              { translateY: this.state.bounceValue },
+              { translateY: this.state.bounceValueTranslateY },
               { scale: this.state.bounceValueScale }
             ]
           }]}

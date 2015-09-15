@@ -10,6 +10,7 @@ var {
   View,
   Image,
   Animated,
+  LayoutAnimation,
   ScrollView,
   NavigatorIOS,
   TouchableHighlight,
@@ -34,7 +35,7 @@ var Game = React.createClass({
       this.state.bounceValue,
       {
         toValue: 1,
-        // duration: 200,
+        duration: 200,
       }
     ).start();
   },
@@ -50,19 +51,12 @@ var Game = React.createClass({
         <View style={styles.gameContainer}>
           <Image
             style={styles.gameImg}
-
             source={require('image!boxart')}
-
             resizeMode="contain"
           />
           <Animated.Image
             style={[styles.gameImg, {position: 'absolute', top: 0, left: 0, opacity: this.state.bounceValue}]}
             source={{uri: this.props.game.uri}}
-
-            ref={(game) => {
-              this.game = game;
-            }}
-
             resizeMode="contain"
             onLoaded={ this._onImageLoad }
           />
@@ -90,9 +84,24 @@ var GamesScreen = React.createClass({
 
   _onChange: function() {
     // TODO:
+    // LayoutAnimation.configureNext(
+    //   {
+    //     duration: 100,
+    //     create: {
+    //       type: LayoutAnimation.Types.linear,
+    //       property: LayoutAnimation.Properties.scaleXY,
+    //     },
+    //     update: {
+    //       type: LayoutAnimation.Types.linear,
+    //       springDamping: 0.4,
+    //     }
+    //   }
+    // );
+    
     this.setState({
       currentStreamIsOn: applicationStore.getCurrentStreamStatus()
     });
+
   },
 
   _onPressGame: function(game) {
