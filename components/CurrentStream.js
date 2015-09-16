@@ -19,6 +19,8 @@ var styles = require('./stream_styles');
 
 var SCREEN_WIDTH = Dimensions.get('window').width;
 
+var applicationActions = require('../actions/applicationActions');
+
 var CurrentStream = React.createClass({
   getInitialState: function() {
     return {
@@ -70,7 +72,7 @@ var CurrentStream = React.createClass({
           duration: 400,
         }
       ).start(() => {
-        this.props.setCurrentStream(null);
+        applicationActions.setCurrentStream(null);
       });
     } else {
       Animated.timing(

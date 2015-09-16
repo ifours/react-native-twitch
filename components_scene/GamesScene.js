@@ -41,7 +41,7 @@ var Game = React.createClass({
   },
 
   render: function() {
-    // TODO: replace two Image with one
+    // TODO: replace two Image with one or use background image
     return (
       <TouchableHighlight
         style={styles.gameView}
@@ -82,26 +82,10 @@ var GamesScreen = React.createClass({
     applicationStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
-    // TODO:
-    // LayoutAnimation.configureNext(
-    //   {
-    //     duration: 100,
-    //     create: {
-    //       type: LayoutAnimation.Types.linear,
-    //       property: LayoutAnimation.Properties.scaleXY,
-    //     },
-    //     update: {
-    //       type: LayoutAnimation.Types.linear,
-    //       springDamping: 0.4,
-    //     }
-    //   }
-    // );
-    
+  _onChange: function() {    
     this.setState({
       currentStreamIsOn: applicationStore.getCurrentStreamStatus()
     });
-
   },
 
   _onPressGame: function(game) {
@@ -110,7 +94,7 @@ var GamesScreen = React.createClass({
     this.props.navigator.push({
       title: game.name,
       component: ChannelsScene,
-      passProps: { game, emitCurrentStream: this.props.emitCurrentStream },
+      passProps: { game },
     });
   },
 

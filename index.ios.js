@@ -27,18 +27,27 @@ var {
   StatusBarIOS,
 } = React;
 
+var applicationStore = require('./stores/applicationStore');
+
 StatusBarIOS.setStyle('light-content');
 
 var MainView = React.createClass({
   getInitialState: function() {
     return {
-      currentStream: null,
+      currentStream: applicationStore.getCurrentStream(),
     };
   },
 
-  emitCurrentStream: function(stream) {
-    applicationActions.changeCurrentStreamStatus(!!stream);
-    this.setState({ currentStream: stream });
+  componentDidMount: function() {
+    applicationStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    applicationStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    this.setState({ currentStream: applicationStore.getCurrentStream() });
   },
 
   renderCurrentStream: function() {
@@ -46,7 +55,7 @@ var MainView = React.createClass({
       return null;
     }
     return (
-      <CurrentStream stream={this.state.currentStream} setCurrentStream={this.emitCurrentStream} navigator={this.refs.nav} />
+      <CurrentStream stream={this.state.currentStream} navigator={this.refs.nav} />
     );
   },
 

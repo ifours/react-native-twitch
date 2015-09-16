@@ -11,6 +11,13 @@ var actions = {
       value: value,
     });
   },
+
+  setCurrentStream: function(value) {
+    dispatcher.dispatch({
+      actionType: applicationConstants.SET_CURRENT_STREAM,
+      value: value,
+    });
+  },
 };
 
 module.exports = actions;

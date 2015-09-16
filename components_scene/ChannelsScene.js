@@ -48,7 +48,6 @@ var ChannelsScene = React.createClass({
   renderGridItem: function(stream) {
     return (
       <Channel {...this.props}
-        emitCurrentStream={() => this.props.emitCurrentStream(stream)}
         stream={stream}
         key={stream.key}
       />
@@ -58,7 +57,6 @@ var ChannelsScene = React.createClass({
   renderListItem: function(stream) {
     return (
       <Channel {...this.props}
-        emitCurrentStream={() => this.props.emitCurrentStream(stream)}
         stream={stream}
         key={stream.key}
 
@@ -67,7 +65,7 @@ var ChannelsScene = React.createClass({
     )
   },
 
-  _getArrayOfChannels: function(startIndex, endIndex) {
+  _getArrayOfChannels: function({ startIndex, endIndex }) {
     var channels = [];
 
     for (var i = startIndex; i != endIndex; i++) {
@@ -77,12 +75,18 @@ var ChannelsScene = React.createClass({
   },
 
   renderListChannels: function() {
-    return this._getArrayOfChannels(this.state.gridCount, this.state.channels.length)
+    return this._getArrayOfChannels({
+        startIndex: this.state.gridCount,
+        endIndex: this.state.channels.length,
+      })
       .map(this.renderListItem);
   },
   
   rednerGridChannels: function() {
-    return this._getArrayOfChannels(0, this.state.gridCount)
+    return this._getArrayOfChannels({
+        startIndex: 0,
+        endIndex: this.state.gridCount,
+      })
       .map(this.renderGridItem);;
   },
 

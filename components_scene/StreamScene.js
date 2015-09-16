@@ -25,13 +25,16 @@ var {
   Text,
 } = React;
 
+var applicationActions = require('../actions/applicationActions');
+
 var StreamScreen = React.createClass({
   getInitialState: function() {
     return { msgs };
   },
 
   componentWillUnmount: function() {
-    this.props.emitCurrentStream();
+    // this.props.emitCurrentStream();
+    applicationActions.setCurrentStream(this.props.stream);
   },
 
   renderMsg: function(message, index) {

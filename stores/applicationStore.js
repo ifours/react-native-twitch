@@ -9,7 +9,7 @@ var сonstants = require('../constants/applicationConstants');
 var EVENT = 'fromApplicationStore';
 
 var _state = {
-  currentStreamIsOn: false
+  currentStream: null,
 };
 
 var store = assign({}, EventEmitter.prototype, {
@@ -18,7 +18,11 @@ var store = assign({}, EventEmitter.prototype, {
   },
 
   getCurrentStreamStatus: function() {
-    return _state.currentStreamIsOn;
+    return !!_state.currentStream;
+  },
+
+  getCurrentStream: function() {
+    return _state.currentStream;
   },
 
   emitChange: function() {
@@ -37,6 +41,10 @@ var store = assign({}, EventEmitter.prototype, {
     switch(action.actionType) {
       case сonstants.CURRENT_STREAM:
         _state.currentStreamIsOn = action.value;
+        store.emitChange();
+        break;
+      case сonstants.SET_CURRENT_STREAM:
+        _state.currentStream = action.value;
         store.emitChange();
         break;
     }
