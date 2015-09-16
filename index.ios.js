@@ -1,19 +1,11 @@
 'use strict';
 
-var React = require('react-native');
-var Dimensions = require('Dimensions');
-var Drawer = require('react-native-drawer');
+var React = require('react-native'),
+  Drawer = require('react-native-drawer');
 
 var DrawerScene = require('./components_scene/DrawerScene'),
   CurrentStream = require('./components/CurrentStream'),
   GamesScene = require('./components_scene/GamesScene');
-
-var applicationActions = require('./actions/applicationActions');
-
-var SCREEN_WIDTH = Dimensions.get('window').width;
-var openDrawerOffset = 75;
-
-var isDrawer = false;
 
 var {
   AppRegistry,
@@ -27,7 +19,11 @@ var {
   StatusBarIOS,
 } = React;
 
-var applicationStore = require('./stores/applicationStore');
+var applicationStore = require('./stores/applicationStore'),
+  applicationActions = require('./actions/applicationActions');
+
+var openDrawerOffset = 75,
+  isDrawer = false;
 
 StatusBarIOS.setStyle('light-content');
 
@@ -119,48 +115,6 @@ var App = React.createClass({
       </Drawer>
     );
   }
-});
-
-var imgRatio = 202 / 145,
-  imgMargin = 15,
-  perRow = 2,
-  imgWidth = (SCREEN_WIDTH - imgMargin * (perRow + 1)) / perRow,
-  imgHeight = imgRatio * imgWidth;
-
-var styles = StyleSheet.create({
-  header: {
-    backgroundColor: '#6441A5',
-  },
-
-  container: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-
-  gameView: {
-    marginLeft: imgMargin,
-    marginTop: imgMargin,
-    backgroundColor: 'grey', 
-  },
-
-  gameContainer: {
-    flexDirection: 'row',
-  },
-
-  gameImg: {
-    width: imgWidth,
-    height: imgHeight,
-  },
-
-  gameText: {
-    fontWeight: '200',
-    fontSize: 28,
-  },
-
-  gameTextDesc: {
-    color: '#aaa',
-    lineHeight: 20,
-  },
 });
 
 AppRegistry.registerComponent('twitch', () => App);
