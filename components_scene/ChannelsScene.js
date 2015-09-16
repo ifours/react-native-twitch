@@ -17,16 +17,15 @@ var {
 
 var ChannelsTabs = require('../components/ChannelsTabs'),
   CurrentStream = require('../components/CurrentStream'),
-  Channel = require('../components/Channel'),
-  MiniStream = require('../components/MiniStream');
+  Channel = require('../components/Channel');
 
 var applicationStore = require('../stores/applicationStore');
 
-var GameStreams = React.createClass({
+var ChannelsScene = React.createClass({
   getInitialState: function() {
     return {
-      streams,
-      miniStreams,
+      channels,
+      gridCount: 4,
       currentStreamIsOn: applicationStore.getCurrentStreamStatus(),
     };
   },
@@ -46,7 +45,7 @@ var GameStreams = React.createClass({
     });
   },
 
-  renderStream: function(stream) {
+  renderGridItem: function(stream) {
     return (
       <Channel {...this.props}
         emitCurrentStream={() => this.props.emitCurrentStream(stream)}
@@ -56,22 +55,35 @@ var GameStreams = React.createClass({
     )
   },
 
-  renderMiniStream: function(stream) {
+  renderListItem: function(stream) {
     return (
-      <MiniStream {...this.props}
+      <Channel {...this.props}
         emitCurrentStream={() => this.props.emitCurrentStream(stream)}
         stream={stream}
         key={stream.key}
+
+        isListItem={true}
       />
     )
   },
 
-  renderMiniStreams: function() {
-    return this.state.miniStreams.map(this.renderMiniStream);
+  _getArrayOfChannels: function(startIndex, endIndex) {
+    var channels = [];
+
+    for (var i = startIndex; i != endIndex; i++) {
+      channels[i] = this.state.channels[i];
+    }
+    return channels;
+  },
+
+  renderListChannels: function() {
+    return this._getArrayOfChannels(this.state.gridCount, this.state.channels.length)
+      .map(this.renderListItem);
   },
   
-  renderStreams: function() {
-    return this.state.streams.map(this.renderStream);
+  rednerGridChannels: function() {
+    return this._getArrayOfChannels(0, this.state.gridCount)
+      .map(this.renderGridItem);;
   },
 
   render: function() {
@@ -80,8 +92,8 @@ var GameStreams = React.createClass({
     return (
       <View style={{flex: 1, marginTop }}>
         <ScrollView style={{ marginBottom: 60 }}>
-          {this.renderStreams()}
-          {this.renderMiniStreams()}
+          {this.rednerGridChannels()}
+          {this.renderListChannels()}
         </ScrollView>
         <ChannelsTabs />
       </View>
@@ -134,14 +146,12 @@ var styles = StyleSheet.create({
   },
 });
 
-var streams = [
+var channels = [
   { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_professorbroman-320x180.jpg', key: 0, name: 'BLOODBORNE - FINISH THE FIGHT', views: '4 678'},
   { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_teawrex-320x180.jpg', key: 1, name: 'New Build !Vote  http://mugenmonkey.com/bloodborne/4126  OR http://mugenmonkey.com/bloodborne/4503', views: '4 678'},
   { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_bioflash257-320x180.jpg', key: 2, name: 'Level 4 no death run attempts', views: '4 678'},
   { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_edemonster-320x180.jpg', key: 3, name: 'Bloodborne - New Game, New Character, New Class, New Story', views: '4 678'},
-];
 
-var miniStreams = [
   { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_fizzor-320x180.jpg', key: 10, name: 'Destiny Year Two Reveal', views: '244 520' },
   { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_annialis-320x180.jpg', key: 11, name: 'Directo de Bungie | El Rey de los Poseídos', views: '244 520' },
   { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_tpatpeppers-320x180.jpg', key: 12, name: 'QC-FR Commentaire sur le Live Stream', views: '244 520' },
@@ -150,4 +160,4 @@ var miniStreams = [
   { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_babynikki-320x180.jpg', key: 15, name: 'Destiny Year Two Reveal', views: '244 520' },
 ]
 
-module.exports = GameStreams;
+module.exports = ChannelsScene;

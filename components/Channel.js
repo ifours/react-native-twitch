@@ -115,7 +115,76 @@ var Stream = React.createClass({
         </Animated.View>
       </TouchableHighlight>
     );
-  }
+  },
+
+  render: function() {
+    if (!this.props.isListItem) {
+      return (
+        <TouchableHighlight
+          onPress={() => this._onPressStream(this.props.stream) }
+          onPressIn={this._onPressIn}
+          onPressOut={this._onPressOut}
+          underlayColor='#fff'
+        >
+          <Animated.View
+            style={[styles.streamView, {
+              opacity: this.state.bounceValueOpacity,
+              transform: [
+                { translateY: this.state.bounceValueTranslateY },
+                { scale: this.state.bounceValueScale }
+              ]
+            }]}
+          >
+            <Image
+              style={styles.streamImg}
+              source={{uri: this.props.stream.uri}}
+              resizeMode="contain"
+            />
+            <Text
+              style={styles.streamTitleText}
+              numberOfLines={1}
+            >
+              {this.props.stream.name}
+            </Text>
+            <Text style={{color: 'rgb(140, 140, 140)'}}>
+              {this.props.stream.views} viewers on Channel
+            </Text>
+          </Animated.View>
+        </TouchableHighlight>
+      );
+    } else {
+      return (
+        <View>
+          <View style={styles.separator} />
+          <TouchableHighlight
+            onPress={() => this._onPressStream(this.props.stream) }
+            underlayColor='#f1f1f1'
+          >
+            <View
+              style={[styles.streamView, styles.miniStreamView]}
+            >
+              <Image
+                style={[styles.streamImg, styles.miniStreamImg]}
+                source={{uri: this.props.stream.uri}}
+                resizeMode="contain"
+              />
+              <View style={{marginLeft: 10, flex: 1}}>
+                <Text
+                  style={[styles.streamTitleText, {fontSize: 18}]}
+                  numberOfLines={1}
+                >
+                  {this.props.stream.name}
+                </Text>
+                <Text style={{color: '#694BA6', fontWeight: '400'}} numberOfLines={1}>
+                  Views: <Text style={{color: '#6749A4', fontWeight: 'bold'}}>{this.props.stream.views}</Text>
+                </Text>
+              </View>
+            </View>
+          </TouchableHighlight>
+        </View>
+      );
+    }
+  },
 });
 
 var styles = require('./stream_styles');
