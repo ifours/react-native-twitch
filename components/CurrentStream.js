@@ -47,14 +47,15 @@ var CurrentStream = React.createClass({
   },
 
   onResponderMove: function(evt) {
-    var offset = -this._previousLeft + evt.nativeEvent.pageX
+    var offset = -this._previousLeft + evt.nativeEvent.pageX;
+
     this._streamStyles.left = offset;
     this._streamStyles.opacity = 1 - ( Math.abs(offset) / 200 ) * 0.6;
     this._updatePosition();
   },
 
   onResponderGrant: function(evt) {
-    this._previousLeft = evt.nativeEvent.pageX
+    this._previousLeft = evt.nativeEvent.pageX;
   },
 
   onResponderRelease: function(evt) {
@@ -96,6 +97,7 @@ var CurrentStream = React.createClass({
           left: this.state.bounceValueLeft,
           opacity: this.state.bounceValueOpacity,
           backgroundColor: 'rgba(255, 255, 255, 0.92)',
+
         }]}
 
         onStartShouldSetResponder={(evt) => true}
@@ -120,7 +122,9 @@ var CurrentStream = React.createClass({
           >
             {this.props.stream.name}
           </Text>
-          <Text style={{color: '#694BA6', fontWeight: '400'}} numberOfLines={1}>
+          <Text style={{color: '#694BA6', fontWeight: '400'}}
+            numberOfLines={1}
+          >
             Playing
           </Text>
         </View>

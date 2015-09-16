@@ -17,7 +17,7 @@ var {
   StatusBarIOS,
 } = React;
 
-var GameScreen = require('./GameScreen');
+var ChannelsScene = require('./ChannelsScene');
 
 var applicationStore = require('../stores/applicationStore');
 
@@ -109,7 +109,7 @@ var GamesScreen = React.createClass({
 
     this.props.navigator.push({
       title: game.name,
-      component: GameScreen,
+      component: ChannelsScene,
       passProps: { game, emitCurrentStream: this.props.emitCurrentStream },
     });
   },

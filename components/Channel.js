@@ -15,9 +15,7 @@ var {
   TouchableHighlight,
 } = React;
 
-var StreamScreen = require('../components_screens/StreamScreen');
-
-var styles = require('./stream_styles');
+var StreamScreen = require('../components_scene/StreamScene');
 
 var Stream = React.createClass({
   getInitialState: function() {
@@ -71,7 +69,7 @@ var Stream = React.createClass({
     this.props.navigator.push({
       title: stream.name,
       component: StreamScreen,
-      passProps: {stream, emitCurrentStream: this.props.emitCurrentStream },
+      passProps: { stream, emitCurrentStream: this.props.emitCurrentStream },
     });
   },
 
@@ -119,5 +117,7 @@ var Stream = React.createClass({
     );
   }
 });
+
+var styles = require('./stream_styles');
 
 module.exports = Stream;

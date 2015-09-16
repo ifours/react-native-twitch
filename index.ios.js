@@ -4,9 +4,9 @@ var React = require('react-native');
 var Dimensions = require('Dimensions');
 var Drawer = require('react-native-drawer');
 
-var DrawerScreen = require('./components_screens/DrawerScreen'),
+var DrawerScene = require('./components_scene/DrawerScene'),
   CurrentStream = require('./components/CurrentStream'),
-  GamesScreen = require('./components_screens/GamesScreen');
+  GamesScene = require('./components_scene/GamesScene');
 
 var applicationActions = require('./actions/applicationActions');
 
@@ -46,7 +46,7 @@ var MainView = React.createClass({
       return null;
     }
     return (
-      <CurrentStream stream={this.state.currentStream} setCurrentStream={this.emitCurrentStream}/>
+      <CurrentStream stream={this.state.currentStream} setCurrentStream={this.emitCurrentStream} navigator={this.refs.nav} />
     );
   },
 
@@ -61,7 +61,7 @@ var MainView = React.createClass({
           tintColor='#fff'
           ref="nav"
           initialRoute={{
-            component: GamesScreen,
+            component: GamesScene,
             title: 'Games',
             leftButtonIcon: require('image!tabnav_list'),
             onLeftButtonPress: () => {
@@ -101,7 +101,7 @@ var App = React.createClass({
         panOpenMask={.5}
         onOpen={() => isDrawer = true}
         onClose={() => isDrawer = false}
-        content={<DrawerScreen closeDrawer={this.closeDrawer}/>}
+        content={<DrawerScene closeDrawer={this.closeDrawer}/>}
         >
           <MainView
             closeDrawer={this.closeDrawer}

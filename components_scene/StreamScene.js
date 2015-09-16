@@ -25,7 +25,7 @@ var {
   Text,
 } = React;
 
-var GameScreen = React.createClass({
+var StreamScreen = React.createClass({
   getInitialState: function() {
     return { msgs };
   },
@@ -38,14 +38,15 @@ var GameScreen = React.createClass({
     return (
       <View key={index} style={styles.messageContainer}>
         <Text style={{ lineHeight: 24 }}>
-          <Text style={{color: getRandomColor()}}>{'@'}{message.name}{':  '}</Text>
-          <Text style={{fontWeight: '200'}}>{message.text}</Text>
+          <Text style={{ color: getRandomColor() }}>{'@'}{message.name}{':  '}</Text>
+          <Text style={{ fontWeight: '200' }}>{message.text}</Text>
         </Text>
       </View>
     )
   },
 
   render: function() {
+
     return (
       <View style={styles.container}>
         <View>
@@ -57,7 +58,7 @@ var GameScreen = React.createClass({
         </View>
         <ScrollView
           style={styles.messagesView}
-          contentContainerStyle={{marginTop: -64,}}
+          contentContainerStyle={{ marginTop: -64, }}
         >
           {this.state.msgs.map(this.renderMsg)}
         </ScrollView>
@@ -71,6 +72,7 @@ var styles = StyleSheet.create({
   container: {
     marginTop: 64,
     flex: 1,
+    position: 'relative'
   },
 
   mainImgView: {
@@ -112,4 +114,4 @@ var msgs = [
 
 msgs = msgs.concat(msgs).concat(msgs);
 
-module.exports = GameScreen;
+module.exports = StreamScreen;

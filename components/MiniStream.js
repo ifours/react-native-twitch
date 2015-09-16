@@ -12,7 +12,7 @@ var {
   TouchableHighlight,
 } = React;
 
-var StreamScreen = require('../components_screens/StreamScreen');
+var StreamScreen = require('../components_scene/StreamScene');
 
 var MiniStream = React.createClass({
   _onPressStream: function(stream) {

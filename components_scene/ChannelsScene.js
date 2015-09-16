@@ -15,10 +15,9 @@ var {
   TouchableHighlight,
 } = React;
 
-var StreamScreen = require('./StreamScreen'),
-  ChannelsTabs = require('../components/ChannelsTabs'),
+var ChannelsTabs = require('../components/ChannelsTabs'),
   CurrentStream = require('../components/CurrentStream'),
-  Stream = require('../components/Stream'),
+  Channel = require('../components/Channel'),
   MiniStream = require('../components/MiniStream');
 
 var applicationStore = require('../stores/applicationStore');
@@ -49,7 +48,7 @@ var GameStreams = React.createClass({
 
   renderStream: function(stream) {
     return (
-      <Stream {...this.props}
+      <Channel {...this.props}
         emitCurrentStream={() => this.props.emitCurrentStream(stream)}
         stream={stream}
         key={stream.key}
@@ -79,8 +78,8 @@ var GameStreams = React.createClass({
     var marginTop = this.state.currentStreamIsOn ? 90 : 0;
 
     return (
-      <View style={{flex: 1, marginTop}}>
-        <ScrollView>
+      <View style={{flex: 1, marginTop }}>
+        <ScrollView style={{ marginBottom: 60 }}>
           {this.renderStreams()}
           {this.renderMiniStreams()}
         </ScrollView>

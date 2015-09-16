@@ -11,13 +11,6 @@ var actions = {
       value: value,
     });
   },
-
-  // setCurrentStream: function(stream) {
-  //   dispatcher.dispatch({
-  //     actionType: applicationConstants.CURRENT_STREAM,
-  //     stream: stream,
-  //   }); 
-  // }
 };
 
 module.exports = actions;
