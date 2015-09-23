@@ -82,42 +82,6 @@ var Stream = React.createClass({
   },
 
   render: function() {
-    return (
-      <TouchableHighlight
-        onPress={() => this._onPressStream(this.props.stream) }
-        onPressIn={this._onPressIn}
-        onPressOut={this._onPressOut}
-        underlayColor='#fff'
-      >
-        <Animated.View
-          style={[styles.streamView, {
-            opacity: this.state.bounceValueOpacity,
-            transform: [
-              { translateY: this.state.bounceValueTranslateY },
-              { scale: this.state.bounceValueScale }
-            ]
-          }]}
-        >
-          <Image
-            style={styles.streamImg}
-            source={{uri: this.props.stream.uri}}
-            resizeMode="contain"
-          />
-          <Text
-            style={styles.streamTitleText}
-            numberOfLines={1}
-          >
-            {this.props.stream.name}
-          </Text>
-          <Text style={{color: 'rgb(140, 140, 140)'}}>
-            {this.props.stream.views} viewers on Channel
-          </Text>
-        </Animated.View>
-      </TouchableHighlight>
-    );
-  },
-
-  render: function() {
     if (!this.props.isListItem) {
       return (
         <TouchableHighlight
