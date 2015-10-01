@@ -8,8 +8,11 @@ var сonstants = require('../constants/applicationConstants');
 
 var EVENT = 'fromApplicationStore';
 
+
+// TODO: bad part separete store or use diffent events
 var _state = {
   currentStream: null,
+  channelItemsViewType: сonstants.GRID_LIST,
 };
 
 var store = assign({}, EventEmitter.prototype, {
@@ -25,6 +28,11 @@ var store = assign({}, EventEmitter.prototype, {
     return _state.currentStream;
   },
 
+  getChannelItemsView: function() {
+    return _state.channelItemsViewType;
+  },
+
+
   emitChange: function() {
     this.emit(EVENT);
   },
@@ -37,14 +45,22 @@ var store = assign({}, EventEmitter.prototype, {
     this.removeListener(EVENT, callback);
   },
 
+
   dispatchToken: dispatcher.register(function(action) {
     switch(action.actionType) {
+
       case сonstants.CURRENT_STREAM:
         _state.currentStreamIsOn = action.value;
         store.emitChange();
         break;
+
       case сonstants.SET_CURRENT_STREAM:
         _state.currentStream = action.value;
+        store.emitChange();
+        break;
+
+      case сonstants.SET_CHANNEL_ITEMS_VIEW:
+        _state.channelItemsViewType = action.type;
         store.emitChange();
         break;
     }

@@ -4,6 +4,7 @@
 var React = require('react-native');
 
 var {
+  Touchable,
   StyleSheet,
   View,
   Text,

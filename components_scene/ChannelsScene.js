@@ -23,11 +23,14 @@ var ChannelsTabs = require('../components/ChannelsTabs'),
 
 var applicationStore = require('../stores/applicationStore');
 
+var appConst = require('../constants/applicationConstants');
+
 var ChannelsScene = React.createClass({
   getInitialState: function() {
     return {
       channels,
       gridCount: 4,
+      itemsView: applicationStore.getChannelItemsView(),
       currentStreamIsOn: applicationStore.getCurrentStreamStatus(),
     };
   },
@@ -43,7 +46,8 @@ var ChannelsScene = React.createClass({
   _onChange: function() {
     // TODO:
     this.setState({
-      currentStreamIsOn: applicationStore.getCurrentStreamStatus()
+      currentStreamIsOn: applicationStore.getCurrentStreamStatus(),
+      itemsView: applicationStore.getChannelItemsView(),
     });
   },
 
@@ -90,14 +94,27 @@ var ChannelsScene = React.createClass({
       .map(this.renderGridItem);;
   },
 
+  renderItems: function() {
+    switch (this.state.itemsView) {
+
+      case appConst.GRID:
+        return this.state.channels.map(this.renderGridItem);
+
+      case appConst.LIST:
+        return this.state.channels.map(this.renderListItem);
+
+      case appConst.GRID_LIST:
+        return this.rednerGridChannels().concat(this.renderListChannels());
+    }
+  },
+
   render: function() {
     var marginTop = this.state.currentStreamIsOn ? 90 : 0;
 
     return (
       <View style={{flex: 1, marginTop }}>
         <ScrollView style={{ marginBottom: 60 }}>
-          {this.rednerGridChannels()}
-          {this.renderListChannels()}
+          {this.renderItems()}
         </ScrollView>
         <ChannelsTabs />
       </View>

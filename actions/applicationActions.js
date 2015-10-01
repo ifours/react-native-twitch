@@ -18,6 +18,13 @@ var actions = {
       value: value,
     });
   },
+
+  setChannelItemsView: function(type) {
+    dispatcher.dispatch({
+      actionType: applicationConstants.SET_CHANNEL_ITEMS_VIEW,
+      type: type,
+    }); 
+  },
 };
 
 module.exports = actions;
