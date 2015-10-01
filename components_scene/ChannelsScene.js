@@ -17,7 +17,10 @@ var {
 
 var ChannelsTabs = require('../components/ChannelsTabs'),
   CurrentStream = require('../components/CurrentStream'),
-  Channel = require('../components/Channel');
+  Channel = require('../components/Channel'),
+  ChannelListItem = require('../components/ChannelListItem'),
+  ChannelGridItem = require('../components/ChannelGridItem');
+
 
 var applicationStore = require('../stores/applicationStore');
 
@@ -47,7 +50,7 @@ var ChannelsScene = React.createClass({
 
   renderGridItem: function(stream) {
     return (
-      <Channel {...this.props}
+      <ChannelGridItem {...this.props}
         stream={stream}
         key={stream.key}
       />
@@ -56,11 +59,9 @@ var ChannelsScene = React.createClass({
 
   renderListItem: function(stream) {
     return (
-      <Channel {...this.props}
+      <ChannelListItem {...this.props}
         stream={stream}
         key={stream.key}
-
-        isListItem={true}
       />
     )
   },
