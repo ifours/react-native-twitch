@@ -11,7 +11,6 @@ var {
   Animated,
   LayoutAnimation,
   ScrollView,
-  Modal,
   NavigatorIOS,
   TouchableHighlight,
   StatusBarIOS,

@@ -8,7 +8,6 @@ var {
   View,
   ScrollView,
   Image,
-  Modal,
   PixelRatio,
   Text,
   Animated,
