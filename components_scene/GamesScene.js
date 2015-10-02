@@ -1,7 +1,6 @@
 'use strict';
 
-var React = require('react-native'),
-  Dimensions = require('Dimensions');
+var React = require('react-native');
 
 var {
   AppRegistry,
@@ -12,59 +11,16 @@ var {
   Animated,
   LayoutAnimation,
   ScrollView,
+  Modal,
   NavigatorIOS,
   TouchableHighlight,
   StatusBarIOS,
 } = React;
 
-var ChannelsScene = require('./ChannelsScene');
+var ChannelsScene = require('./ChannelsScene'),
+  Game = require('../components/GameItem');
 
 var applicationStore = require('../stores/applicationStore');
-
-var SCREEN_WIDTH = Dimensions.get('window').width;
-
-var Game = React.createClass({
-  getInitialState: function() {
-    return {
-       bounceValue: new Animated.Value(0),
-    }
-  },
-
-  _onImageLoad: function() {
-    Animated.timing(
-      this.state.bounceValue,
-      {
-        toValue: 1,
-        duration: 200,
-      }
-    ).start();
-  },
-
-  render: function() {
-    // TODO: replace two Image with one or use background image
-    return (
-      <TouchableHighlight
-        style={styles.gameView}
-        underlayColor='#f1f1f1'
-        onPress={ this.props.onPressGame }
-      >
-        <View style={styles.gameContainer}>
-          <Image
-            style={styles.gameImg}
-            source={require('image!boxart')}
-            resizeMode="contain"
-          />
-          <Animated.Image
-            style={[styles.gameImg, {position: 'absolute', top: 0, left: 0, opacity: this.state.bounceValue}]}
-            source={{uri: this.props.game.uri}}
-            resizeMode="contain"
-            onLoaded={ this._onImageLoad }
-          />
-        </View>
-      </TouchableHighlight>
-    );
-  },
-});
 
 var GamesScreen = React.createClass({
   getInitialState: function() {
@@ -94,6 +50,10 @@ var GamesScreen = React.createClass({
     this.props.navigator.push({
       title: game.name,
       component: ChannelsScene,
+      rightButtonTitle: 'Test Settings',
+      onRightButtonPress: () => {
+
+      },
       passProps: { game },
     });
   },
@@ -117,47 +77,11 @@ var GamesScreen = React.createClass({
   }
 });
 
-var imgRatio = 202 / 145,
-  imgMargin = 15,
-  perRow = 2,
-  imgWidth = (SCREEN_WIDTH - imgMargin * (perRow + 1)) / perRow,
-  // imgWidth = 100,
-  imgHeight = imgRatio * imgWidth;
-
 var styles = StyleSheet.create({
-  header: {
-    backgroundColor: '#6441A5',
-  },
-
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-  },
-
-  gameView: {
-    marginLeft: imgMargin,
-    marginTop: imgMargin,
-  },
-
-  gameContainer: {
-    flexDirection: 'row',
-    position: 'relative',
-  },
-
-  gameImg: {
-    width: imgWidth,
-    height: imgHeight,
-  },
-
-  gameText: {
-    fontWeight: '200',
-    fontSize: 28,
-  },
-
-  gameTextDesc: {
-    color: '#aaa',
-    lineHeight: 20,
-  },
+  }
 });
 
 module.exports = GamesScreen;

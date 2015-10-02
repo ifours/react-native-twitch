@@ -51,6 +51,10 @@ var ChannelsScene = React.createClass({
     });
   },
 
+  _openSettingsModal: function() {
+    debugger;
+  },
+
   renderGridItem: function(stream) {
     return (
       <ChannelGridItem {...this.props}
