@@ -10,7 +10,7 @@ var {
 var SCREEN_WIDTH = Dimensions.get('window').width;
 
 var imgRatio = 180 / 320,
-  imgMargin = 15,
+  imgMargin = 10,
   perRow = 1,
   imgWidth = (SCREEN_WIDTH - imgMargin * (perRow + 1)) / perRow,
   imgHeight = imgRatio * imgWidth;
@@ -21,18 +21,21 @@ var styles = StyleSheet.create({
   },
 
   streamView: {
-    padding: imgMargin,
+    paddingTop: imgMargin,
+    paddingRight: imgMargin,
+    paddingLeft: imgMargin,
   },
 
   streamImg: {
     width: imgWidth,
     height: imgHeight,
-    backgroundColor: 'grey',
+    // backgroundColor: 'grey',
   },
 
   streamTitleText: {
     color: 'rgb(50, 50, 62)',
-    fontSize: 20,
+    fontSize: 17,
+    fontWeight: 'bold',
   },
 
   miniStreamView: {

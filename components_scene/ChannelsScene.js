@@ -2,7 +2,6 @@
 'use strict';
 
 var React = require('react-native');
-var Dimensions = require('Dimensions');
 
 var {
   StyleSheet,
@@ -19,7 +18,6 @@ var ChannelsTabs = require('../components/ChannelsTabs'),
   CurrentStream = require('../components/CurrentStream'),
   ChannelListItem = require('../components/ChannelListItem'),
   ChannelGridItem = require('../components/ChannelGridItem');
-
 
 var applicationStore = require('../stores/applicationStore');
 
@@ -113,7 +111,7 @@ var ChannelsScene = React.createClass({
 
     return (
       <View style={{flex: 1, marginTop }}>
-        <ScrollView style={{ marginBottom: 60 }}>
+        <ScrollView style={{ marginBottom: 50 }}>
           {this.renderItems()}
         </ScrollView>
         <ChannelsTabs />
@@ -121,14 +119,6 @@ var ChannelsScene = React.createClass({
     );
   }
 });
-
-var SCREEN_WIDTH = Dimensions.get('window').width;
-
-var imgRatio = 180 / 320,
-  imgMargin = 15,
-  perRow = 2,
-  imgWidth = (SCREEN_WIDTH - imgMargin * (perRow + 1)) / perRow,
-  imgHeight = imgRatio * imgWidth;
 
 var styles = StyleSheet.create({
 

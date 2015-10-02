@@ -11,6 +11,7 @@
     "keymirror": "^0.1.1",
     "object-assign": "^4.0.1",
     "react-native": "^0.8.0",
-    "react-native-drawer": "^1.2.6"
+    "react-native-drawer": "^1.2.6",
+    "react-native-linear-gradient": "^0.3.2"
   }
 }

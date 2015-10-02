@@ -2,6 +2,7 @@
 'use strict';
 
 var React = require('react-native');
+var LinearGradient = require('react-native-linear-gradient');
 
 var {
   StyleSheet,
@@ -77,6 +78,7 @@ var ChannelGridItem = React.createClass({
         onPress={() => this._onPressStream(this.props.stream) }
         onPressIn={this._onPressIn}
         onPressOut={this._onPressOut}
+        
         underlayColor='#fff'
       >
         <Animated.View
@@ -89,19 +91,26 @@ var ChannelGridItem = React.createClass({
           }]}
         >
           <Image
-            style={sharedStyles.streamImg}
+            style={[sharedStyles.streamImg, styles.streamView ]}
             source={{uri: this.props.stream.uri}}
             resizeMode="contain"
-          />
-          <Text
-            style={sharedStyles.streamTitleText}
-            numberOfLines={1}
           >
-            {this.props.stream.name}
-          </Text>
-          <Text style={{color: 'rgb(140, 140, 140)'}}>
-            {this.props.stream.views} viewers on Channel
-          </Text>
+            <LinearGradient colors={['rgba(0,0,0,0)', 'rgb(0,0,0,1)']} style={styles.streamBox}>
+              <Text
+                style={[sharedStyles.streamTitleText, {color: '#fff', lineHeight: 16}]}
+                numberOfLines={1}
+              >
+                {this.props.stream.name}
+              </Text>
+              <Text style={{ color: '#fff', fontSize: 12, lineHeight: 16}}>
+                SK Zelatoto - New Season
+              </Text>
+              <Text style={{color: '#B9A5E1', fontSize: 12, fontWeight: 'bold', lineHeight: 16}}>
+                {this.props.stream.views} <Text style={{fontWeight: '200',}}>viewers</Text>
+              </Text>
+            </LinearGradient>
+
+          </Image>
         </Animated.View>
       </TouchableHighlight>
     );
@@ -110,7 +119,12 @@ var ChannelGridItem = React.createClass({
 
 
 var styles = StyleSheet.create({
-
+  streamView: {
+    justifyContent: 'flex-end',
+  },
+  streamBox: {
+    padding: 10,
+  }
 });
 
 var sharedStyles = require('./stream_styles');
