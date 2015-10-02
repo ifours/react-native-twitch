@@ -52,7 +52,7 @@ var GamesScreen = React.createClass({
       component: ChannelsScene,
       rightButtonTitle: 'Test Settings',
       onRightButtonPress: () => {
-
+        ChannelsScene.openSettingsModal(true);
       },
       passProps: { game },
     });

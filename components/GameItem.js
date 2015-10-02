@@ -61,7 +61,6 @@ var imgRatio = 202 / 145,
   imgMargin = 15,
   perRow = 2,
   imgWidth = (SCREEN_WIDTH - imgMargin * (perRow + 1)) / perRow,
-  // imgWidth = 100,
   imgHeight = imgRatio * imgWidth;
 
 

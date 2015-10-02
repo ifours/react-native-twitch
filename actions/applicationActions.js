@@ -25,6 +25,13 @@ var actions = {
       type: type,
     }); 
   },
+
+  setSettingsModalVisible: function(value) {
+    dispatcher.dispatch({
+      actionType: applicationConstants.SET_SETTINS_MODAL_VISIBLE,
+      value: value,
+    }); 
+  }
 };
 
 module.exports = actions;

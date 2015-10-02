@@ -18,17 +18,26 @@ var {
 var ChannelsTabs = require('../components/ChannelsTabs'),
   CurrentStream = require('../components/CurrentStream'),
   ChannelListItem = require('../components/ChannelListItem'),
-  ChannelGridItem = require('../components/ChannelGridItem');
+  ChannelGridItem = require('../components/ChannelGridItem'),
+  SettingsModal = require('../components/ChannelsModal');
 
 
-var applicationStore = require('../stores/applicationStore');
+var applicationStore = require('../stores/applicationStore'),
+  appActions = require('../actions/applicationActions');
 
 var appConst = require('../constants/applicationConstants');
 
 var ChannelsScene = React.createClass({
+  statics: {
+    openSettingsModal: function(value) {
+      appActions.setSettingsModalVisible(value);
+    }
+  },
+
   getInitialState: function() {
     return {
       channels,
+      modalVisible: applicationStore.getModalVisible(),
       gridCount: 4,
       itemsView: applicationStore.getChannelItemsView(),
       currentStreamIsOn: applicationStore.getCurrentStreamStatus(),
@@ -48,11 +57,12 @@ var ChannelsScene = React.createClass({
     this.setState({
       currentStreamIsOn: applicationStore.getCurrentStreamStatus(),
       itemsView: applicationStore.getChannelItemsView(),
+      modalVisible: applicationStore.getModalVisible(),
     });
   },
 
-  _openSettingsModal: function() {
-    debugger;
+  _setModalVisible: function(visible) {
+    appActions.setSettingsModalVisible(visible)
   },
 
   renderGridItem: function(stream) {
@@ -90,12 +100,12 @@ var ChannelsScene = React.createClass({
       .map(this.renderListItem);
   },
   
-  rednerGridChannels: function() {
+  renderGridChannels: function() {
     return this._getArrayOfChannels({
         startIndex: 0,
         endIndex: this.state.gridCount,
       })
-      .map(this.renderGridItem);;
+      .map(this.renderGridItem);
   },
 
   renderItems: function() {
@@ -108,7 +118,7 @@ var ChannelsScene = React.createClass({
         return this.state.channels.map(this.renderListItem);
 
       case appConst.GRID_LIST:
-        return this.rednerGridChannels().concat(this.renderListChannels());
+        return this.renderGridChannels().concat(this.renderListChannels());
     }
   },
 
@@ -117,6 +127,7 @@ var ChannelsScene = React.createClass({
 
     return (
       <View style={{flex: 1, marginTop }}>
+        <SettingsModal closeModal={() => this._setModalVisible(false)}  modalVisible={this.state.modalVisible}/>
         <ScrollView style={{ marginBottom: 60 }}>
           {this.renderItems()}
         </ScrollView>

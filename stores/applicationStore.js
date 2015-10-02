@@ -13,6 +13,7 @@ var EVENT = 'fromApplicationStore';
 var _state = {
   currentStream: null,
   channelItemsViewType: сonstants.GRID_LIST,
+  modalVisible: false,
 };
 
 var store = assign({}, EventEmitter.prototype, {
@@ -30,6 +31,10 @@ var store = assign({}, EventEmitter.prototype, {
 
   getChannelItemsView: function() {
     return _state.channelItemsViewType;
+  },
+
+  getModalVisible: function() {
+    return _state.modalVisible;
   },
 
 
@@ -61,6 +66,11 @@ var store = assign({}, EventEmitter.prototype, {
 
       case сonstants.SET_CHANNEL_ITEMS_VIEW:
         _state.channelItemsViewType = action.type;
+        store.emitChange();
+        break;
+
+      case сonstants.SET_SETTINS_MODAL_VISIBLE:
+        _state.modalVisible = action.value;
         store.emitChange();
         break;
     }
