@@ -154,7 +154,7 @@ var MenuList = React.createClass({
               />
               <Text style={[styles.rowText, activeText]}>
                 {rowData.title}
-              </Text>
+              </Text> 
             
           </View>
           <View style={styles.rowSeparator} />
