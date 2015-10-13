@@ -12,6 +12,7 @@ var {
   View,
   scrollViewew,
   Image,
+  PixelRatio,
   Text,
   ListView,
   TouchableHighlight,
@@ -19,19 +20,41 @@ var {
 
 var DrawerScreen = React.createClass({
   render: function() {
-    var logo = (
+    return (
+      <View style={styles.container}>
+        <Logo />
+        <Search />
+        <MenuList {...this.props}/>
+      </View>
+    );
+  }
+});
+
+var Search = React.createClass({
+  render: function() {
+    return (
+      <View style={{ marginTop: -8 }}>
+        <View style={styles.searchSeparator} />
+        <View style={styles.searchView} >
+          <Image
+            style={{ width: 15, height: 15 }}
+            source={{uri: 'http://www.clker.com/cliparts/9/T/2/h/X/7/search-icon-md.png'}} />
+          <Text style={styles.searchText} >Search</Text>
+        </View>
+        <View style={styles.searchSeparator} />
+      </View>
+    );
+  }
+});
+
+var Logo = React.createClass({
+  render: function() {
+    return (
       <View style={{alignItems: 'center'}}>
         <Image
           style={styles.logoImg}
           source={{uri: 'http://twitchadvertising.tv/wp-content/uploads/2014/03/logo_white_twitch_effects.png'}}
         />
-      </View>
-    );
-
-    return (
-      <View style={styles.container}>
-        {logo}
-        <MenuList {...this.props}/>
       </View>
     );
   }
@@ -96,7 +119,7 @@ var MenuList = React.createClass({
       imageSrc = {uri: rowData.img};
     }
 
-    if (sectionID === 'Watch') {
+    if (sectionID === 'Browse') {
       systemImageStyle.width = 30;
       systemImageStyle.height = 30;
     }
@@ -158,9 +181,8 @@ var MenuList = React.createClass({
   }
 });
 
-var ratio = (196 / 140),
-  imgWidth = 30,
-  imgHeight = ratio * imgWidth;
+var imgWidth = 22,
+  imgHeight = 30;
 
 var styles = StyleSheet.create({
   container: {
@@ -195,24 +217,24 @@ var styles = StyleSheet.create({
   },
 
   rowText: {
-    fontSize: 20,
+    fontSize: 17,
   },
 
   sectionView: {
-    padding: 10,
+    padding: 2,
+    paddingLeft: 10,
   },
 
   sectionText: {
-    color: '#fff',
-    fontSize: 17,
-    fontWeight: 'bold',
+    color: '#FCFCFC',
+    fontSize: 15,
+    fontWeight: '500',
   },
 
   logoImg: {
     width: SCREEN_WIDTH - openDrawerOffset - 100,
     height: 100,
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 15,
   },
 
   selectedRow: {
@@ -221,12 +243,31 @@ var styles = StyleSheet.create({
 
   textRow: {
     color: '#DAD9E9',
-  }
+  },
+
+  searchView: {
+    flexDirection: 'row',
+    backgroundColor: '#19191F',
+    padding: 6,
+    margin: 10,
+  },
+
+  searchSeparator: {
+    backgroundColor: '#19191F',
+    height: 1 / PixelRatio.get(),
+  },
+
+  searchText: {
+    color: '#BFBFBF',
+    paddingLeft: 5,
+    // fontSize: 12,
+    fontWeight: '600',
+  },
 });
 
 var menuDataList = [
   {
-    section: 'Watch',
+    section: 'Browse',
     items: [
       { title: 'Games', systemImg: 'games' },
       { title: 'Channels', systemImg: 'channels' },

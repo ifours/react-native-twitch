@@ -79,7 +79,7 @@ var ChannelGridItem = React.createClass({
         onPressIn={this._onPressIn}
         onPressOut={this._onPressOut}
         
-        underlayColor='#fff'
+        underlayColor='rgba(255,255,255, 0.5)'
       >
         <Animated.View
           style={[sharedStyles.streamView, {
