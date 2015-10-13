@@ -5,7 +5,7 @@ var React = require('react-native');
 var Dimensions = require('Dimensions');
 
 var SCREEN_WIDTH = Dimensions.get('window').width;
-var openDrawerOffset = 75;
+var openDrawerOffset = 60;
 
 var {
   StyleSheet,
@@ -13,6 +13,7 @@ var {
   scrollViewew,
   Image,
   PixelRatio,
+  TextInput,
   Text,
   ListView,
   TouchableHighlight,
@@ -25,9 +26,25 @@ var DrawerScreen = React.createClass({
         <Logo />
         <Search />
         <MenuList {...this.props}/>
+        <Actions />
       </View>
     );
   }
+});
+
+var Actions = React.createClass({
+  render: function() {
+    return (
+      <View style={styles.actionsView}>
+        <View style={styles.action}>
+          <Text style={styles.actionText}>Log In</Text>
+        </View>
+        <View style={styles.action}>
+          <Text style={styles.actionText}>Sign Up</Text>
+        </View>
+      </View>
+    );
+  },
 });
 
 var Search = React.createClass({
@@ -128,15 +145,19 @@ var MenuList = React.createClass({
       <TouchableHighlight
         onPress={() => this.props.closeDrawer()}
       >
-        <View style={[styles.rowView, activeView]}>
-          <Image
-            style={[styles.rowImg, systemImageStyle]}
-            source={ imageSrc }
-            tintColor='#DBDBEA'
-          />
-          <Text style={[styles.rowText, activeText]}>
-            {rowData.title}
-          </Text>
+        <View>
+          <View style={[styles.rowView, activeView]}>
+              <Image
+                style={[styles.rowImg, systemImageStyle]}
+                source={ imageSrc }
+                tintColor='#DBDBEA'
+              />
+              <Text style={[styles.rowText, activeText]}>
+                {rowData.title}
+              </Text>
+            
+          </View>
+          <View style={styles.rowSeparator} />
         </View>
       </TouchableHighlight>
     );
@@ -257,11 +278,36 @@ var styles = StyleSheet.create({
     height: 1 / PixelRatio.get(),
   },
 
+  rowSeparator: {
+    backgroundColor: '#211F27',
+    height: 1 / PixelRatio.get(), 
+  },
+
   searchText: {
     color: '#BFBFBF',
     paddingLeft: 5,
     // fontSize: 12,
     fontWeight: '600',
+  },
+
+  actionsView: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: 'rgba(33,31,39,0.9)',
+  },
+
+  actionText: {
+    color: '#CCB3FD',
+    fontSize: 17,
+  },
+
+  action: {
+    margin: 12,
   },
 });
 

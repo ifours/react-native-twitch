@@ -22,7 +22,7 @@ var {
 var applicationStore = require('./stores/applicationStore'),
   applicationActions = require('./actions/applicationActions');
 
-var openDrawerOffset = 75,
+var openDrawerOffset = 60,
   isDrawer = false;
 
 StatusBarIOS.setStyle('light-content');
