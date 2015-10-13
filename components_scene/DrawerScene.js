@@ -78,8 +78,28 @@ var MenuList = React.createClass({
   },
 
   renderRow: function(rowData: string, sectionID: string, rowID: string): ReactElement {
-    var activeView = rowID === 'Games' ? { backgroundColor: '#000' } : {};
-    var activeText = rowID === 'Games' ? { color: '#CCB3FD' } : { color: '#DBDBEA' };
+    var activeView = rowID === 'Games' ? { backgroundColor: '#000' } : {},
+      activeText = rowID === 'Games' ? { color: '#CCB3FD' } : { color: '#DBDBEA' },
+      imageSrc, systemImageStyle = {};
+
+    // TODO:
+    if (!rowData.img) {
+      switch (rowData.systemImg) {
+        case 'games':
+          imageSrc = require('image!games');
+          break;
+        case 'channels':
+          imageSrc = require('image!channels');
+          break;
+      }
+    } else {
+      imageSrc = {uri: rowData.img};
+    }
+
+    if (sectionID === 'Watch') {
+      systemImageStyle.width = 30;
+      systemImageStyle.height = 30;
+    }
 
     return (
       <TouchableHighlight
@@ -87,8 +107,8 @@ var MenuList = React.createClass({
       >
         <View style={[styles.rowView, activeView]}>
           <Image
-            style={styles.rowImg}
-            source={{uri: rowData.img}}
+            style={[styles.rowImg, systemImageStyle]}
+            source={ imageSrc }
             tintColor='#DBDBEA'
           />
           <Text style={[styles.rowText, activeText]}>
@@ -208,8 +228,8 @@ var menuDataList = [
   {
     section: 'Watch',
     items: [
-      { img: 'http://xstream.net/sites/default/files/Icon_game_console.png', title: 'Games' },
-      { img: 'http://www.3visiondistribution.com/uploads/images/tv-icon.png', title: 'Channels' },
+      { title: 'Games', systemImg: 'games' },
+      { title: 'Channels', systemImg: 'channels' },
     ],
   },
   {
