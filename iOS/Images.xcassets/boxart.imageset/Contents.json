@@ -2,18 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "boxart.png"
+      "filename" : "boxart.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "boxart-1.png"
+      "filename" : "boxart-1.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "boxart-2.png"
+      "filename" : "boxart-2.png",
+      "scale" : "3x"
     }
   ],
   "info" : {

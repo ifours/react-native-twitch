@@ -80,6 +80,8 @@ var styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+
+    paddingBottom: 10,
   }
 });
 

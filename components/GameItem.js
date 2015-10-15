@@ -9,6 +9,7 @@ var {
   View,
   Animated,
   Image,
+  Text,
   TouchableHighlight,
 } = React;
 
@@ -32,6 +33,7 @@ var GameItem = React.createClass({
   },
 
   render: function() {
+
     return (
       <TouchableHighlight
         style={styles.gameView}
@@ -39,29 +41,30 @@ var GameItem = React.createClass({
         onPress={ this.props.onPressGame }
       >
         <View style={styles.gameContainer}>
-          <Image
-            style={styles.gameImg}
-            source={require('image!boxart')}
-            resizeMode="contain"
-          >
+          <View style={styles.boxartView}>
+            <Image
+              style={styles.boxartConatianer}
+              source={require('image!boxart')}
+              resizeMode="contain" >
+              <Text numberOfLines={3} style={styles.gameTitle}>{this.props.game.name}</Text>
+            </Image>
             <Animated.Image
               style={[styles.gameImg, {opacity: this.state.bounceValue}]}
               source={{uri: this.props.game.uri}}
               resizeMode="contain"
               onLoaded={ this._onImageLoad }
             />
-          </Image>
+          </View>
         </View>
       </TouchableHighlight>
     );
   },
-});
+}); 
 
 var imgRatio = 202 / 145,
-  imgMargin = 15,
+  imgMargin = 10,
   perRow = 2,
   imgWidth = (SCREEN_WIDTH - imgMargin * (perRow + 1)) / perRow,
-  // imgWidth = 100,
   imgHeight = imgRatio * imgWidth;
 
 
@@ -73,10 +76,41 @@ var styles = StyleSheet.create({
 
   gameContainer: {
     flexDirection: 'row',
-    position: 'relative',
+    backgroundColor: '#19191E',
+
+    width: imgWidth,
+    height: imgHeight,
+  },
+
+  boxartView: {
+    flex: 1,
+    // alignItems: 'center',
+    // marginTop: imgHeight / 2 - 50,
+  },
+
+  boxartConatianer: {
+    width: imgWidth,
+    padding: 10,
+    height: 70,
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+
+  gameTitle: {
+    color: '#B9A5E1',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 
   gameImg: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    
     width: imgWidth,
     height: imgHeight,
   },
