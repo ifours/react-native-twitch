@@ -15,8 +15,6 @@ var {
   TouchableHighlight,
 } = React;
 
-var styles = require('./stream_styles');
-
 var SCREEN_WIDTH = Dimensions.get('window').width;
 
 var applicationActions = require('../actions/applicationActions');
@@ -32,6 +30,7 @@ var CurrentStream = React.createClass({
   componentWillMount: function() {
     this._previousLeft = 0;
     this._previousOpacity = 1;
+
     this._streamStyles = {
       left: this._previousLeft,
       opacity: this._previousOpacity,
@@ -53,6 +52,7 @@ var CurrentStream = React.createClass({
 
     this._streamStyles.left = offset;
     this._streamStyles.opacity = 1 - ( Math.abs(offset) / 200 ) * 0.6;
+    
     this._updatePosition();
   },
 
@@ -92,14 +92,13 @@ var CurrentStream = React.createClass({
   render: function() {
     return (
       <Animated.View
-        style={[styles.streamView, styles.miniStreamView, {
+        style={[styles.streamView, {
           width: SCREEN_WIDTH,
           position: 'absolute',
           top: 64,
           left: this.state.bounceValueLeft,
           opacity: this.state.bounceValueOpacity,
           backgroundColor: 'rgba(255, 255, 255, 0.92)',
-
         }]}
 
         onStartShouldSetResponder={(evt) => true}
@@ -110,28 +109,63 @@ var CurrentStream = React.createClass({
 
         ref={(stream) => {
           this.stream = stream;
-        }}
-      >
-        <Image
-          style={[styles.streamImg, styles.miniStreamImg]}
+        }} >
+
+        <Image style={styles.streamImage}
           source={{uri: this.props.stream.uri}}
-          resizeMode="contain"
-        />
-        <View style={{marginLeft: 10, flex: 1}}>
-          <Text
-            style={[styles.streamTitleText, {fontSize: 18}]}
-            numberOfLines={1}
-          >
+          resizeMode="contain" />
+        <View style={styles.infoView}>
+          <Text style={styles.titleText}
+            numberOfLines={1} >
+
             {this.props.stream.name}
           </Text>
           <Text style={{color: '#694BA6', fontWeight: '400'}}
-            numberOfLines={1}
-          >
+            numberOfLines={1} >
+
             Playing
           </Text>
         </View>
       </Animated.View>
     );
+  },
+});
+
+var imgRatio = 180 / 320,
+  imgOffset = 9,
+  imgWidth = 95,
+  imgHeight = imgRatio * imgWidth;
+
+var styles = StyleSheet.create({
+  streamView: {
+    flexDirection: 'row',
+    padding: 9,
+  },
+
+  streamImage: {
+    width: imgWidth,
+    height: imgHeight,
+  },
+
+  infoView: {
+    flex: 1,
+    marginLeft: 10,
+  },
+
+  titleText: {
+    fontWeight: '500',
+    fontSize: 14,
+  },
+
+  nameText: {
+    fontSize: 12,
+    paddingVertical: 3,
+  },
+
+  viewersText: {
+    color: '#694BA6',
+    fontWeight: '600',
+    fontSize: 12,
   },
 });
 

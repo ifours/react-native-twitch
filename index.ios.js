@@ -4,7 +4,7 @@ var React = require('react-native'),
   Drawer = require('./vendor/react-native-drawer');
 
 var DrawerScene = require('./components_scene/DrawerScene'),
-  CurrentStream = require('./components/CurrentStream'),
+  Player = require('./components/Player'),
   GamesScene = require('./components_scene/GamesScene');
 
 var {
@@ -46,12 +46,12 @@ var MainView = React.createClass({
     this.setState({ currentStream: applicationStore.getCurrentStream() });
   },
 
-  renderCurrentStream: function() {
+  renderPlayer: function() {
     if (!this.state.currentStream) {
       return null;
     }
     return (
-      <CurrentStream stream={this.state.currentStream} navigator={this.refs.nav} />
+      <Player stream={this.state.currentStream} navigator={this.refs.nav} />
     );
   },
 
@@ -82,7 +82,7 @@ var MainView = React.createClass({
             },
           }}
         />
-        {this.renderCurrentStream()}
+        {this.renderPlayer()}
       </View>
     );
   }

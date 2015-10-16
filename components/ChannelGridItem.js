@@ -64,18 +64,11 @@ var ChannelGridItem = React.createClass({
       }
     );
   },
-  _onPressStream: function(stream) {
-    this.props.navigator.push({
-      title: stream.name,
-      component: StreamScene,
-      passProps: { stream },
-    });
-  },
 
   render: function() {
     return (
       <TouchableHighlight
-        onPress={() => this._onPressStream(this.props.stream) }
+        onPress={ this.props.onPressStream }
         onPressIn={this._onPressIn}
         onPressOut={this._onPressOut}
         
@@ -87,7 +80,8 @@ var ChannelGridItem = React.createClass({
             transform: [
               { translateY: this.state.bounceValueTranslateY },
               { scale: this.state.bounceValueScale }
-            ]
+            ],
+            marginTop: this.props.stream.key === 0 ? 10 : 0,
           }]}
         >
           <Image
@@ -100,7 +94,7 @@ var ChannelGridItem = React.createClass({
                 style={[sharedStyles.streamTitleText, {color: '#fff', lineHeight: 16}]}
                 numberOfLines={1}
               >
-                {this.props.stream.name}
+                {this.props.stream.title}
               </Text>
               <Text style={{ color: '#fff', fontSize: 12, lineHeight: 16}}>
                 SK Zelatoto - New Season

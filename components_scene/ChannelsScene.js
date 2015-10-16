@@ -15,9 +15,9 @@ var {
 } = React;
 
 var ChannelsTabs = require('../components/ChannelsTabs'),
-  CurrentStream = require('../components/CurrentStream'),
   ChannelListItem = require('../components/ChannelListItem'),
-  ChannelGridItem = require('../components/ChannelGridItem');
+  ChannelGridItem = require('../components/ChannelGridItem'),
+  StreamScene = require('./StreamScene');
 
 var applicationStore = require('../stores/applicationStore');
 
@@ -26,7 +26,7 @@ var appConst = require('../constants/applicationConstants');
 var ChannelsScene = React.createClass({
   getInitialState: function() {
     return {
-      channels,
+      channels: require('../mock_data/streams'),
       gridCount: 4,
       itemsView: applicationStore.getChannelItemsView(),
       currentStreamIsOn: applicationStore.getCurrentStreamStatus(),
@@ -49,9 +49,19 @@ var ChannelsScene = React.createClass({
     });
   },
 
+  _onPressStream: function(stream) {
+    this.props.navigator.push({
+      title: stream.title,
+      component: StreamScene,
+      passProps: { stream },
+    });
+  },
+
+
   renderGridItem: function(stream) {
     return (
       <ChannelGridItem {...this.props}
+        onPressStream={ () =>  this._onPressStream(stream) }
         stream={stream}
         key={stream.key}
       />
@@ -61,6 +71,7 @@ var ChannelsScene = React.createClass({
   renderListItem: function(stream) {
     return (
       <ChannelListItem {...this.props}
+        onPressStream={ () => this._onPressStream(stream) }
         stream={stream}
         key={stream.key}
       />
@@ -107,7 +118,7 @@ var ChannelsScene = React.createClass({
   },
 
   render: function() {
-    var marginTop = this.state.currentStreamIsOn ? 90 : 0;
+    var marginTop = this.state.currentStreamIsOn ? 60 : 0;
 
     return (
       <View style={{flex: 1, marginTop }}>
@@ -123,19 +134,5 @@ var ChannelsScene = React.createClass({
 var styles = StyleSheet.create({
 
 });
-
-var channels = [
-  { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_professorbroman-320x180.jpg', key: 0, name: 'BLOODBORNE - FINISH THE FIGHT', views: '4 678'},
-  { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_teawrex-320x180.jpg', key: 1, name: 'New Build !Vote  http://mugenmonkey.com/bloodborne/4126  OR http://mugenmonkey.com/bloodborne/4503', views: '4 678'},
-  { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_bioflash257-320x180.jpg', key: 2, name: 'Level 4 no death run attempts', views: '4 678'},
-  { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_edemonster-320x180.jpg', key: 3, name: 'Bloodborne - New Game, New Character, New Class, New Story', views: '4 678'},
-
-  { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_fizzor-320x180.jpg', key: 10, name: 'Destiny Year Two Reveal', views: '244 520' },
-  { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_annialis-320x180.jpg', key: 11, name: 'Directo de Bungie | El Rey de los Poseídos', views: '244 520' },
-  { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_tpatpeppers-320x180.jpg', key: 12, name: 'QC-FR Commentaire sur le Live Stream', views: '244 520' },
-  { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_geestaar74-320x180.jpg', key: 13, name: 'BUNGIE Re`stream...Ger', views: '244 520' },
-  { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_couchteamgaming-320x180.jpg', key: 14, name: 'Taken King Reveal LIVE', views: '244 520' },
-  { uri: 'http://static-cdn.jtvnw.net/previews-ttv/live_user_babynikki-320x180.jpg', key: 15, name: 'Destiny Year Two Reveal', views: '244 520' },
-]
 
 module.exports = ChannelsScene;

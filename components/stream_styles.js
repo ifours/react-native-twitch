@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
   },
 
   streamView: {
-    paddingTop: imgMargin,
+    paddingBottom: imgMargin,
     paddingRight: imgMargin,
     paddingLeft: imgMargin,
   },

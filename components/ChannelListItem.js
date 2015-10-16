@@ -2,6 +2,7 @@
 'use strict';
 
 var React = require('react-native');
+var Dimensions = require('Dimensions');
 
 var {
   StyleSheet,
@@ -17,39 +18,34 @@ var {
 var StreamScene = require('../components_scene/StreamScene');
 
 var ChannelListItem = React.createClass({
-  _onPressStream: function(stream) {
-    this.props.navigator.push({
-      title: stream.name,
-      component: StreamScene,
-      passProps: { stream },
-    });
-  },
-
   render: function() {
     return (
       <View>
-        <View style={sharedStyles.separator} />
+        <View style={styles.separator} />
         <TouchableHighlight
-          onPress={() => this._onPressStream(this.props.stream) }
-          underlayColor='#f1f1f1'
-        >
-          <View
-            style={[sharedStyles.streamView, sharedStyles.miniStreamView]}
-          >
-            <Image
-              style={[sharedStyles.streamImg, sharedStyles.miniStreamImg]}
+          onPress={ this.props.onPressStream }
+          underlayColor='#f1f1f1' >
+
+          <View style={styles.streamView} >
+            <Image style={styles.streamImage}
               source={{uri: this.props.stream.uri}}
-              resizeMode="contain"
-            />
-            <View style={{marginLeft: 10, flex: 1}}>
-              <Text
-                style={[sharedStyles.streamTitleText, {fontSize: 18}]}
-                numberOfLines={1}
-              >
+              resizeMode="contain"  />
+
+            <View style={styles.infoView}>
+              <Text style={styles.titleText}
+                numberOfLines={1} >
+
+                {this.props.stream.streamer}
+              </Text>
+              <Text style={styles.nameText}
+                numberOfLines={1} >
+
                 {this.props.stream.name}
               </Text>
-              <Text style={{color: '#694BA6', fontWeight: '400'}} numberOfLines={1}>
-                Views: <Text style={{color: '#6749A4', fontWeight: 'bold'}}>{this.props.stream.views}</Text>
+              <Text style={styles.viewersText}
+                numberOfLines={1} >
+
+                {this.props.stream.views} viewers
               </Text>
             </View>
           </View>
@@ -59,11 +55,50 @@ var ChannelListItem = React.createClass({
   }
 });
 
+var SCREEN_WIDTH = Dimensions.get('window').width;
+
+var imgRatio = 180 / 320,
+  imgOffset = 9,
+  imgWidth = 95,
+  imgHeight = imgRatio * imgWidth;
+
 
 var styles = StyleSheet.create({
+  streamView: {
+    flexDirection: 'row',
+    padding: 9,
+  },
 
+  streamImage: {
+    width: imgWidth,
+    height: imgHeight,
+  },
+
+  infoView: {
+    flex: 1,
+    marginLeft: 10,
+  },
+
+  titleText: {
+    fontWeight: '500',
+    fontSize: 14,
+  },
+
+  nameText: {
+    fontSize: 12,
+    paddingVertical: 3,
+  },
+
+  viewersText: {
+    color: '#694BA6',
+    fontWeight: '600',
+    fontSize: 12,
+  },
+
+  separator: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    height: 1 / PixelRatio.get(),
+  }
 });
-
-var sharedStyles = require('./stream_styles');
 
 module.exports = ChannelListItem;

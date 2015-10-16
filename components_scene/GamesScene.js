@@ -49,10 +49,6 @@ var GamesScreen = React.createClass({
     this.props.navigator.push({
       title: game.name,
       component: ChannelsScene,
-      rightButtonTitle: 'Test Settings',
-      onRightButtonPress: () => {
-
-      },
       passProps: { game },
     });
   },
@@ -66,7 +62,7 @@ var GamesScreen = React.createClass({
   },
 
   render: function() {
-    var marginTop = this.state.currentStreamIsOn ? 90 : 0;
+    var marginTop = this.state.currentStreamIsOn ? 60 : 0;
 
     return (
       <ScrollView contentContainerStyle={[styles.container, { marginTop }]}>

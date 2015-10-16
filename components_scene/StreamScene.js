@@ -59,8 +59,7 @@ var StreamScreen = React.createClass({
             resizeMode="contain"
           />
         </View>
-        <ScrollView
-          style={styles.messagesView}
+        <ScrollView style={styles.messagesView}
           contentContainerStyle={{ marginTop: -64, }}
         >
           {this.state.msgs.map(this.renderMsg)}
