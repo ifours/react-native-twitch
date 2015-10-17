@@ -1,4 +1,4 @@
-/* @flow */
+  /* @flow */
 'use strict';
 
 var React = require('react-native');
@@ -19,8 +19,8 @@ var ChannelsTabs = require('../components/ChannelsTabs'),
   ChannelGridItem = require('../components/ChannelGridItem'),
   StreamScene = require('./StreamScene');
 
-var applicationStore = require('../stores/applicationStore');
-
+var appStore = require('../stores/applicationStore');
+var appActions = require('../actions/applicationActions');
 var appConst = require('../constants/applicationConstants');
 
 var ChannelsScene = React.createClass({
@@ -28,33 +28,36 @@ var ChannelsScene = React.createClass({
     return {
       channels: require('../mock_data/streams'),
       gridCount: 4,
-      itemsView: applicationStore.getChannelItemsView(),
-      currentStreamIsOn: applicationStore.getCurrentStreamStatus(),
+      itemsView: appStore.getChannelItemsView(),
+      playerStatus: appStore.getPlayerStatus(),
     };
   },
 
   componentDidMount: function() {
-    applicationStore.addChangeListener(this._onChange);
+    appStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-    applicationStore.removeChangeListener(this._onChange);
+    appStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {
     // TODO:
     this.setState({
-      currentStreamIsOn: applicationStore.getCurrentStreamStatus(),
-      itemsView: applicationStore.getChannelItemsView(),
+      playerStatus: appStore.getPlayerStatus(),
+      itemsView: appStore.getChannelItemsView(),
     });
   },
 
   _onPressStream: function(stream) {
+
     this.props.navigator.push({
       title: stream.title,
       component: StreamScene,
       passProps: { stream },
     });
+
+    appActions.setPlayerStatus(appConst.OFF, null);
   },
 
 
@@ -63,8 +66,7 @@ var ChannelsScene = React.createClass({
       <ChannelGridItem {...this.props}
         onPressStream={ () =>  this._onPressStream(stream) }
         stream={stream}
-        key={stream.key}
-      />
+        key={stream.key} />
     )
   },
 
@@ -73,8 +75,7 @@ var ChannelsScene = React.createClass({
       <ChannelListItem {...this.props}
         onPressStream={ () => this._onPressStream(stream) }
         stream={stream}
-        key={stream.key}
-      />
+        key={stream.key} />
     )
   },
 
@@ -118,7 +119,9 @@ var ChannelsScene = React.createClass({
   },
 
   render: function() {
-    var marginTop = this.state.currentStreamIsOn ? 60 : 0;
+    var marginTop = (
+      this.state.playerStatus === appConst.PLAYER_SUSPEND ||
+      this.state.playerStatus === appConst.PLAYER_ON ) ? 65 : 0;
 
     return (
       <View style={{flex: 1, marginTop }}>

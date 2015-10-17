@@ -3,6 +3,7 @@
 
 var React = require('react-native');
 var LinearGradient = require('react-native-linear-gradient');
+var Dimensions = require('Dimensions');
 
 var {
   StyleSheet,
@@ -65,63 +66,109 @@ var ChannelGridItem = React.createClass({
     );
   },
 
+  renderBolker: function() {
+    return (
+      <View style={{
+        opacity: 1,
+        height: containerHeight,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: containerWidth - 30,
+        bottom: 0,
+      }}
+      onStartShouldSetResponder={(evt) => true}
+      onResponderTerminationRequest={(evt) => false} />
+    );
+  },
+
   render: function() {
     return (
       <TouchableHighlight
+
         onPress={ this.props.onPressStream }
         onPressIn={this._onPressIn}
         onPressOut={this._onPressOut}
         
-        underlayColor='rgba(255,255,255, 0.5)'
-      >
+        underlayColor='rgba(255,255,255, 0.5)' >
+
         <Animated.View
-          style={[sharedStyles.streamView, {
+          style={[styles.streamContainer, {
             opacity: this.state.bounceValueOpacity,
             transform: [
               { translateY: this.state.bounceValueTranslateY },
               { scale: this.state.bounceValueScale }
             ],
             marginTop: this.props.stream.key === 0 ? 10 : 0,
-          }]}
-        >
+          }]} >
+
           <Image
-            style={[sharedStyles.streamImg, styles.streamView ]}
+            style={styles.streamView}
             source={{uri: this.props.stream.uri}}
-            resizeMode="contain"
-          >
+            resizeMode="contain" >
+
             <LinearGradient colors={['rgba(0,0,0,0)', 'rgb(0,0,0,1)']} style={styles.streamBox}>
               <Text
-                style={[sharedStyles.streamTitleText, {color: '#fff', lineHeight: 16}]}
-                numberOfLines={1}
-              >
+                style={styles.streamTitleText}
+                numberOfLines={1} >
+
                 {this.props.stream.title}
               </Text>
-              <Text style={{ color: '#fff', fontSize: 12, lineHeight: 16}}>
-                SK Zelatoto - New Season
+              <Text style={styles.streamNameText}>
+                {this.props.stream.name}
               </Text>
-              <Text style={{color: '#B9A5E1', fontSize: 12, fontWeight: 'bold', lineHeight: 16}}>
+              <Text style={styles.streamViewesText}>
                 {this.props.stream.views} <Text style={{fontWeight: '200',}}>viewers</Text>
               </Text>
             </LinearGradient>
-
           </Image>
+          {this.renderBolker()}
         </Animated.View>
       </TouchableHighlight>
     );
   }
 });
 
+var SCREEN_WIDTH = Dimensions.get('window').width;
+
+var ratio = 180 / 320,
+  offset = 10,
+  containerWidth = (SCREEN_WIDTH - offset * 2) / 1,
+  containerHeight = ratio * containerWidth;
 
 var styles = StyleSheet.create({
+
+  streamContainer: {
+    paddingBottom: offset,
+    paddingRight: offset,
+    paddingLeft: offset,
+  },
+
   streamView: {
     justifyContent: 'flex-end',
+    width: containerWidth,
+    height: containerHeight,
   },
   streamBox: {
     padding: 10,
-  }
+  },
+
+  streamTitleText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+
+  streamNameText: {
+    color: '#fff',
+    fontSize: 12,
+    paddingVertical: 5,
+  },
+
+  streamViewesText: {
+    color: '#B9A5E1',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
 });
-
-var sharedStyles = require('./stream_styles');
-
 
 module.exports = ChannelGridItem;

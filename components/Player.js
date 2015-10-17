@@ -4,6 +4,8 @@
 var React = require('react-native');
 var Dimensions = require('Dimensions');
 
+var StreamScene = require('../components_scene/StreamScene');
+
 var {
   StyleSheet,
   View,
@@ -17,9 +19,10 @@ var {
 
 var SCREEN_WIDTH = Dimensions.get('window').width;
 
-var applicationActions = require('../actions/applicationActions');
+var appActions = require('../actions/applicationActions');
+var appConsts = require('../constants/applicationConstants');
 
-var CurrentStream = React.createClass({
+var Player = React.createClass({
   getInitialState: function() {
     return {
       bounceValueLeft: new Animated.Value(0),
@@ -28,13 +31,7 @@ var CurrentStream = React.createClass({
   },
 
   componentWillMount: function() {
-    this._previousLeft = 0;
-    this._previousOpacity = 1;
-
-    this._streamStyles = {
-      left: this._previousLeft,
-      opacity: this._previousOpacity,
-    };
+    this._setupStyles();
   },
 
   componentDidMount: function() {
@@ -48,11 +45,11 @@ var CurrentStream = React.createClass({
   },
 
   onResponderMove: function(evt) {
-    var offset = -this._previousLeft + evt.nativeEvent.pageX;
+    var offset = - this._previousLeft + evt.nativeEvent.pageX;
 
-    this._streamStyles.left = offset;
-    this._streamStyles.opacity = 1 - ( Math.abs(offset) / 200 ) * 0.6;
-    
+    this._playerStyles.left = offset;
+    this._playerStyles.opacity = 1 - ( Math.abs(offset) / 200 ) * 0.6;
+
     this._updatePosition();
   },
 
@@ -61,10 +58,24 @@ var CurrentStream = React.createClass({
   },
 
   onResponderRelease: function(evt) {
-    this.state.bounceValueLeft.setValue(this._streamStyles.left);
+    this.state.bounceValueLeft.setValue(this._playerStyles.left);
 
-    if (this._streamStyles.left > 200 || this._streamStyles.left < -200) {
-      this.state.bounceValueOpacity.setValue(this._streamStyles.opacity);
+    if (this._playerStyles.left + this._previousLeft === this._previousLeft) {
+
+      this.props.navigator.push({
+        title: this.props.stream.title,
+        component: StreamScene,
+        passProps: { stream: this.props.stream },
+      });
+
+      appActions.setPlayerStatus(appConsts.PLAYER_SUSPEND);
+
+      return;
+    }
+
+    if (this._playerStyles.left > 200 || this._playerStyles.left < -200) {
+      this.state.bounceValueOpacity.setValue(this._playerStyles.opacity);
+
       Animated.timing(
         this.state.bounceValueOpacity,
         {
@@ -72,7 +83,7 @@ var CurrentStream = React.createClass({
           duration: 400,
         }
       ).start(() => {
-        applicationActions.setCurrentStream(null);
+        appActions.setPlayerStatus(appConsts.PLAYER_OFF);
       });
     } else {
       Animated.timing(
@@ -81,18 +92,30 @@ var CurrentStream = React.createClass({
           toValue: 0,
           duration: 300,
         }
-      ).start();
+      ).start(() => {
+        this._setupStyles();
+      });
     }
   },
 
+  _setupStyles: function() {
+    this._previousLeft = 0;
+    this._previousOpacity = 1;
+
+    this._playerStyles = {
+      left: this._previousLeft,
+      opacity: this._previousOpacity,
+    };
+  },
+
   _updatePosition: function() {
-    this.stream && this.stream.setNativeProps(this._streamStyles);
+    this.stream && this.stream.setNativeProps(this._playerStyles);
   },
 
   render: function() {
     return (
       <Animated.View
-        style={[styles.streamView, {
+        style={[styles.playerView, {
           width: SCREEN_WIDTH,
           position: 'absolute',
           top: 64,
@@ -103,15 +126,17 @@ var CurrentStream = React.createClass({
 
         onStartShouldSetResponder={(evt) => true}
         onMoveShouldSetResponder={(evt) => true}
+
         onResponderGrant={this.onResponderGrant}
         onResponderMove={this.onResponderMove}
         onResponderRelease={this.onResponderRelease}
+        onResponderTerminationRequest={(evt) => false}
 
         ref={(stream) => {
           this.stream = stream;
         }} >
 
-        <Image style={styles.streamImage}
+        <Image style={styles.playerImage}
           source={{uri: this.props.stream.uri}}
           resizeMode="contain" />
         <View style={styles.infoView}>
@@ -137,12 +162,12 @@ var imgRatio = 180 / 320,
   imgHeight = imgRatio * imgWidth;
 
 var styles = StyleSheet.create({
-  streamView: {
+  playerView: {
     flexDirection: 'row',
     padding: 9,
   },
 
-  streamImage: {
+  playerImage: {
     width: imgWidth,
     height: imgHeight,
   },
@@ -156,17 +181,6 @@ var styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 14,
   },
-
-  nameText: {
-    fontSize: 12,
-    paddingVertical: 3,
-  },
-
-  viewersText: {
-    color: '#694BA6',
-    fontWeight: '600',
-    fontSize: 12,
-  },
 });
 
-module.exports = CurrentStream;
+module.exports = Player;

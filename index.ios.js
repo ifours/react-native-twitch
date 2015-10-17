@@ -30,7 +30,7 @@ StatusBarIOS.setStyle('light-content');
 var MainView = React.createClass({
   getInitialState: function() {
     return {
-      currentStream: applicationStore.getCurrentStream(),
+      playerStream: applicationStore.getPlayerStream(),
     };
   },
 
@@ -43,15 +43,15 @@ var MainView = React.createClass({
   },
 
   _onChange: function() {
-    this.setState({ currentStream: applicationStore.getCurrentStream() });
+    this.setState({ playerStream: applicationStore.getPlayerStream() });
   },
 
   renderPlayer: function() {
-    if (!this.state.currentStream) {
+    if (!this.state.playerStream) {
       return null;
     }
     return (
-      <Player stream={this.state.currentStream} navigator={this.refs.nav} />
+      <Player stream={this.state.playerStream} navigator={this.refs.nav} />
     );
   },
 
@@ -78,7 +78,6 @@ var MainView = React.createClass({
             },
             passProps: {
               closeDrawer: this.props.closeDrawer,
-              emitCurrentStream: this.emitCurrentStream,
             },
           }}
         />

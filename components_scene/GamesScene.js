@@ -19,27 +19,28 @@ var {
 var ChannelsScene = require('./ChannelsScene'),
   Game = require('../components/GameItem');
 
-var applicationStore = require('../stores/applicationStore');
+var appStore = require('../stores/applicationStore');
+var appConst = require('../constants/applicationConstants');
 
 var GamesScreen = React.createClass({
   getInitialState: function() {
     return {
       games: require('../mock_data/games'),
-      currentStreamIsOn: applicationStore.getCurrentStreamStatus(),
+      playerStatus: appStore.getPlayerStatus(),
     }
   },
 
   componentDidMount: function() {
-    applicationStore.addChangeListener(this._onChange);
+    appStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-    applicationStore.removeChangeListener(this._onChange);
+    appStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {    
     this.setState({
-      currentStreamIsOn: applicationStore.getCurrentStreamStatus()
+      playerStatus: appStore.getPlayerStatus()
     });
   },
 
@@ -62,7 +63,9 @@ var GamesScreen = React.createClass({
   },
 
   render: function() {
-    var marginTop = this.state.currentStreamIsOn ? 60 : 0;
+    var marginTop = (
+      this.state.playerStatus === appConst.PLAYER_SUSPEND ||
+      this.state.playerStatus === appConst.PLAYER_ON ) ? 65 : 0;
 
     return (
       <ScrollView contentContainerStyle={[styles.container, { marginTop }]}>

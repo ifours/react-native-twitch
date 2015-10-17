@@ -9,9 +9,10 @@ var сonstants = require('../constants/applicationConstants');
 var EVENT = 'fromApplicationStore';
 
 
-// TODO: bad part separete store or use diffent events
+// TODO:
 var _state = {
-  currentStream: null,
+  playerStream: null,
+  playerStatus: сonstants.PLAYER_OFF,
   channelItemsViewType: сonstants.GRID_LIST,
 };
 
@@ -20,12 +21,12 @@ var store = assign({}, EventEmitter.prototype, {
     return _state;
   },
 
-  getCurrentStreamStatus: function() {
-    return !!_state.currentStream;
+  getPlayerStatus: function() {
+    return _state.playerStatus;
   },
 
-  getCurrentStream: function() {
-    return _state.currentStream;
+  getPlayerStream: function() {
+    return _state.playerStream;
   },
 
   getChannelItemsView: function() {
@@ -49,18 +50,20 @@ var store = assign({}, EventEmitter.prototype, {
   dispatchToken: dispatcher.register(function(action) {
     switch(action.actionType) {
 
-      case сonstants.CURRENT_STREAM:
-        _state.currentStreamIsOn = action.value;
-        store.emitChange();
-        break;
-
-      case сonstants.SET_CURRENT_STREAM:
-        _state.currentStream = action.value;
+      case сonstants.SET_PLAYER_STREAM:
+        _state.playerStream = action.value;
         store.emitChange();
         break;
 
       case сonstants.SET_CHANNEL_ITEMS_VIEW:
         _state.channelItemsViewType = action.type;
+        store.emitChange();
+        break;
+
+      case сonstants.SET_PLAYER_STATUS:
+        _state.playerStatus = action.status;
+        _state.playerStream = action.stream || null;
+
         store.emitChange();
         break;
     }

@@ -18,6 +18,22 @@ var {
 var StreamScene = require('../components_scene/StreamScene');
 
 var ChannelListItem = React.createClass({
+  renderBolker: function() {
+    return (
+      <View style={{
+        backgroundColor: 'rgba(255,255,255,0)',
+        height: containerHeight + offset * 2,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: SCREEN_WIDTH - 35,
+        bottom: 0,
+      }}
+      onStartShouldSetResponder={(evt) => true}
+      onResponderTerminationRequest={(evt) => false} />
+    );
+  },
+
   render: function() {
     return (
       <View>
@@ -48,6 +64,7 @@ var ChannelListItem = React.createClass({
                 {this.props.stream.views} viewers
               </Text>
             </View>
+            {this.renderBolker()}
           </View>
         </TouchableHighlight>
       </View>
@@ -58,20 +75,20 @@ var ChannelListItem = React.createClass({
 var SCREEN_WIDTH = Dimensions.get('window').width;
 
 var imgRatio = 180 / 320,
-  imgOffset = 9,
-  imgWidth = 95,
-  imgHeight = imgRatio * imgWidth;
+  offset = 9,
+  containerWidth = 95,
+  containerHeight = imgRatio * containerWidth;
 
 
 var styles = StyleSheet.create({
   streamView: {
     flexDirection: 'row',
-    padding: 9,
+    padding: offset,
   },
 
   streamImage: {
-    width: imgWidth,
-    height: imgHeight,
+    width: containerWidth,
+    height: containerHeight,
   },
 
   infoView: {

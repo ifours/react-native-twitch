@@ -25,7 +25,8 @@ var {
   Text,
 } = React;
 
-var applicationActions = require('../actions/applicationActions');
+var appActions = require('../actions/applicationActions');
+var appConst = require('../constants/applicationConstants');
 
 var StreamScreen = React.createClass({
   getInitialState: function() {
@@ -33,8 +34,7 @@ var StreamScreen = React.createClass({
   },
 
   componentWillUnmount: function() {
-    // this.props.emitCurrentStream();
-    applicationActions.setCurrentStream(this.props.stream);
+    appActions.setPlayerStatus(appConst.PLAYER_ON, this.props.stream);
   },
 
   renderMsg: function(message, index) {

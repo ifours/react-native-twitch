@@ -18,14 +18,14 @@ var ChannelsTabs = React.createClass({
         <View style={styles.tab}>
           <Image
             style={styles.icon}
-            source={{uri: 'http://xstream.net/sites/default/files/Icon_game_console.png'}} />
+            source={require('image!active_channels')} />
           
           <Text style={[styles.text, styles.textActive]}>Live Channels</Text>
         </View>
         <View style={styles.tab}>
           <Image
             style={styles.icon}
-            source={{uri: 'http://www.3visiondistribution.com/uploads/images/tv-icon.png'}} />
+            source={require('image!recent')} />
           
           <Text style={styles.text}>Recent Videos</Text>
         </View>
@@ -56,8 +56,10 @@ var styles = StyleSheet.create({
   },
 
   icon: {
-    width: 35,
-    height: 35,
+    width: 25,
+    height: 25,
+
+    marginBottom: 3,
   },
 
   text: {
