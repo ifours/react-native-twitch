@@ -66,7 +66,20 @@ var ChannelGridItem = React.createClass({
     );
   },
 
-  renderBolker: function() {
+  onPressIn: function() {
+    this.animatePressIn().start();
+  },
+
+  onPressOut: function() {
+    this.animatePressOut().start();
+  },
+
+  onPress: function() {
+    this.animatePressIn().start();
+    this.props.onPressStream();
+  },
+
+  renderBloker: function() {
     return (
       <View style={{
         opacity: 1,
@@ -86,9 +99,9 @@ var ChannelGridItem = React.createClass({
     return (
       <TouchableHighlight
 
-        onPress={ this.props.onPressStream }
-        onPressIn={this._onPressIn}
-        onPressOut={this._onPressOut}
+        onPress={this.onPress}
+        onPressIn={this.onPressIn}
+        onPressOut={this.onPressOut}
         
         underlayColor='rgba(255,255,255, 0.5)' >
 
@@ -122,7 +135,8 @@ var ChannelGridItem = React.createClass({
               </Text>
             </LinearGradient>
           </Image>
-          {this.renderBolker()}
+
+          {this.renderBloker()}
         </Animated.View>
       </TouchableHighlight>
     );

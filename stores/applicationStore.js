@@ -4,7 +4,7 @@ var dispatcher = require('../AppDispatcher'),
   EventEmitter = require('events'),
   assign = require('object-assign');
 
-var сonstants = require('../constants/applicationConstants');
+var constants = require('../constants/applicationConstants');
 
 var EVENT = 'fromApplicationStore';
 
@@ -12,8 +12,9 @@ var EVENT = 'fromApplicationStore';
 // TODO:
 var _state = {
   playerStream: null,
-  playerStatus: сonstants.PLAYER_OFF,
-  channelItemsViewType: сonstants.GRID_LIST,
+  playerStatus: constants.PLAYER_OFF,
+  isDrawerOpened: false,
+  channelItemsViewType: constants.GRID_LIST,
 };
 
 var store = assign({}, EventEmitter.prototype, {
@@ -33,6 +34,10 @@ var store = assign({}, EventEmitter.prototype, {
     return _state.channelItemsViewType;
   },
 
+  getDrawerStatus: function() {
+    return _state.isDrawerOpened;
+  },
+
 
   emitChange: function() {
     this.emit(EVENT);
@@ -50,19 +55,25 @@ var store = assign({}, EventEmitter.prototype, {
   dispatchToken: dispatcher.register(function(action) {
     switch(action.actionType) {
 
-      case сonstants.SET_PLAYER_STREAM:
+      case constants.SET_PLAYER_STREAM:
         _state.playerStream = action.value;
         store.emitChange();
         break;
 
-      case сonstants.SET_CHANNEL_ITEMS_VIEW:
+      case constants.SET_CHANNEL_ITEMS_VIEW:
         _state.channelItemsViewType = action.type;
         store.emitChange();
         break;
 
-      case сonstants.SET_PLAYER_STATUS:
+      case constants.SET_PLAYER_STATUS:
         _state.playerStatus = action.status;
         _state.playerStream = action.stream || null;
+
+        store.emitChange();
+        break;
+
+      case constants.SET_DRAWER_STATUS:
+        _state.isDrawerOpened = action.value;
 
         store.emitChange();
         break;

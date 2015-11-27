@@ -20,10 +20,8 @@ var {
 } = React;
 
 var applicationStore = require('./stores/applicationStore'),
-  applicationActions = require('./actions/applicationActions');
-
-var openDrawerOffset = 60,
-  isDrawer = false;
+  applicationActions = require('./actions/applicationActions'),
+  { DRAWER_OFFSET } = require('./constants/applicationConstants');
 
 StatusBarIOS.setStyle('light-content');
 
@@ -31,6 +29,7 @@ var MainView = React.createClass({
   getInitialState: function() {
     return {
       playerStream: applicationStore.getPlayerStream(),
+      isDrawerOpened: applicationStore.getDrawerStatus()
     };
   },
 
@@ -43,7 +42,10 @@ var MainView = React.createClass({
   },
 
   _onChange: function() {
-    this.setState({ playerStream: applicationStore.getPlayerStream() });
+    this.setState({
+      playerStream: applicationStore.getPlayerStream(),
+      isDrawerOpened: applicationStore.getDrawerStatus(),
+    });
   },
 
   renderPlayer: function() {
@@ -59,8 +61,7 @@ var MainView = React.createClass({
 
     return (
       <View style={{ flex: 1 }}>
-        <NavigatorIOS
-          style={{flex: 1}}
+        <NavigatorIOS style={{flex: 1}}
           barTintColor='#6441A5'
           titleTextColor='#fff'
           tintColor='#fff'
@@ -70,17 +71,12 @@ var MainView = React.createClass({
             title: 'Games',
             leftButtonIcon: require('image!tabnav_list'),
             onLeftButtonPress: () => {
-              if (isDrawer) {
-                this.props.closeDrawer();
-              } else {
-                this.props.openDrawer();
-              }
+              this.state.isDrawerOpened ? this.props.closeDrawer() : this.props.openDrawer()
             },
             passProps: {
               closeDrawer: this.props.closeDrawer,
             },
-          }}
-        />
+          }} />
         {this.renderPlayer()}
       </View>
     );
@@ -88,29 +84,54 @@ var MainView = React.createClass({
 });
 
 var App = React.createClass({
-  closeDrawer: function(){
-    isDrawer = false;
+  getInitialState: function() {
+    return {
+      isDrawerOpened: applicationStore.getDrawerStatus()
+    };
+  },
+
+  componentDidMount: function() {
+    applicationStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    applicationStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    this.setState({ isDrawerOpened: applicationStore.getDrawerStatus() });
+  },
+
+  closeDrawer: function() {
+    applicationActions.setDrawerStatus(false);
     this.refs.drawer.close();
   },
-  openDrawer: function(){
-    isDrawer = true;
+
+  openDrawer: function() {
+    applicationActions.setDrawerStatus(true);
     this.refs.drawer.open();
   },
+
+  setDrawerState: function(value) {
+    this.setState({ isDrawerOpened: value });
+  },
+
   render: function() {
+    console.log(this.state.isDrawerOpened);
     return (
-      <Drawer
-        ref="drawer"
+      <Drawer ref="drawer"
         type="static"
-        openDrawerOffset={openDrawerOffset}
+        openDrawerOffset={DRAWER_OFFSET}
         panOpenMask={.5}
-        onOpen={() => isDrawer = true}
-        onClose={() => isDrawer = false}
-        content={<DrawerScene closeDrawer={this.closeDrawer}/>}
-        >
-          <MainView
-            closeDrawer={this.closeDrawer}
-            openDrawer={this.openDrawer}
-          />
+        onOpen={() => this.setDrawerState(true)}
+        onClose={() => this.setDrawerState(false)}
+        content={<DrawerScene closeDrawer={this.closeDrawer} />} >
+
+        <MainView
+          drawerStatus={this.state.isDrawerOpened}
+          closeDrawer={this.closeDrawer}
+          openDrawer={this.openDrawer}
+        />
       </Drawer>
     );
   }

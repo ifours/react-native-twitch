@@ -68,9 +68,7 @@ var Player = React.createClass({
         passProps: { stream: this.props.stream },
       });
 
-      appActions.setPlayerStatus(appConsts.PLAYER_SUSPEND);
-
-      return;
+      return appActions.setPlayerStatus(appConsts.PLAYER_SUSPEND);
     }
 
     if (this._playerStyles.left > 200 || this._playerStyles.left < -200) {
@@ -109,13 +107,12 @@ var Player = React.createClass({
   },
 
   _updatePosition: function() {
-    this.stream && this.stream.setNativeProps(this._playerStyles);
+    this.stream && this.stream.setNativeProps({style: this._playerStyles});
   },
 
   render: function() {
     return (
-      <Animated.View
-        style={[styles.playerView, {
+      <Animated.View style={[styles.playerView, {
           width: SCREEN_WIDTH,
           position: 'absolute',
           top: 64,

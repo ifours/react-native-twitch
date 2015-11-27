@@ -42,7 +42,6 @@ var ChannelsScene = React.createClass({
   },
 
   _onChange: function() {
-    // TODO:
     this.setState({
       playerStatus: appStore.getPlayerStatus(),
       itemsView: appStore.getChannelItemsView(),
@@ -50,7 +49,6 @@ var ChannelsScene = React.createClass({
   },
 
   _onPressStream: function(stream) {
-
     this.props.navigator.push({
       title: stream.title,
       component: StreamScene,

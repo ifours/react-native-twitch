@@ -18,7 +18,7 @@ var {
 var StreamScene = require('../components_scene/StreamScene');
 
 var ChannelListItem = React.createClass({
-  renderBolker: function() {
+  renderBloker: function() {
     return (
       <View style={{
         backgroundColor: 'rgba(255,255,255,0)',
@@ -64,7 +64,8 @@ var ChannelListItem = React.createClass({
                 {this.props.stream.views} viewers
               </Text>
             </View>
-            {this.renderBolker()}
+
+            {this.renderBloker()}
           </View>
         </TouchableHighlight>
       </View>

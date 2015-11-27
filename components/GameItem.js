@@ -17,9 +17,7 @@ var SCREEN_WIDTH = Dimensions.get('window').width;
 
 var GameItem = React.createClass({
   getInitialState: function() {
-    return {
-       bounceValue: new Animated.Value(0),
-    }
+    return { bounceValue: new Animated.Value(0), }
   },
 
   _onImageLoad: function() {
@@ -52,7 +50,7 @@ var GameItem = React.createClass({
               style={[styles.gameImg, {opacity: this.state.bounceValue}]}
               source={{uri: this.props.game.uri}}
               resizeMode="contain"
-              onLoaded={ this._onImageLoad }
+              onLoad={ this._onImageLoad }
             />
           </View>
         </View>

@@ -5,7 +5,7 @@ var React = require('react-native');
 var Dimensions = require('Dimensions');
 
 var SCREEN_WIDTH = Dimensions.get('window').width;
-var openDrawerOffset = 60;
+var { DRAWER_OFFSET } = require('../constants/applicationConstants');
 
 var {
   StyleSheet,
@@ -97,6 +97,7 @@ var MenuList = React.createClass({
     var dataBlob = {};
     var sectionIDs = [];
     var rowIDs = [];
+    var menuDataList = require('../mock_data/menu_data_list');
 
     for (var ii = 0; ii < menuDataList.length; ii++) {
       var sectionName = menuDataList[ii].section;
@@ -122,7 +123,6 @@ var MenuList = React.createClass({
       activeText = rowID === 'Games' ? { color: '#CCB3FD' } : { color: '#DBDBEA' },
       imageSrc, systemImageStyle = {};
 
-    // TODO:
     if (!rowData.img) {
       switch (rowData.systemImg) {
         case 'games':
@@ -209,7 +209,7 @@ var styles = StyleSheet.create({
   container: {
     backgroundColor: '#211F27',
     flex: 1,
-    marginRight: openDrawerOffset,
+    marginRight: DRAWER_OFFSET,
   },
 
   contentContainer: {
@@ -253,7 +253,7 @@ var styles = StyleSheet.create({
   },
 
   logoImg: {
-    width: SCREEN_WIDTH - openDrawerOffset - 100,
+    width: SCREEN_WIDTH - DRAWER_OFFSET - 100,
     height: 100,
     marginTop: 15,
   },
@@ -310,38 +310,5 @@ var styles = StyleSheet.create({
     margin: 12,
   },
 });
-
-var menuDataList = [
-  {
-    section: 'Browse',
-    items: [
-      { title: 'Games', systemImg: 'games' },
-      { title: 'Channels', systemImg: 'channels' },
-    ],
-  },
-  {
-    section: 'Promoted games',
-    items: [
-      { img: 'http://static-cdn.jtvnw.net/ttv-boxart/League%20of%20Legends-140x196.jpg', title: 'League of Legends' },
-      { img: 'http://static-cdn.jtvnw.net/ttv-boxart/Hearthstone:%20Heroes%20of%20Warcraft-140x196.jpg', title: 'Hearthstone' },
-      { img: 'http://static-cdn.jtvnw.net/ttv-boxart/Dota%202-140x196.jpg', title: 'Dota 2' },
-      { img: 'http://static-cdn.jtvnw.net/ttv-boxart/Counter-Strike:%20Global%20Offensive-140x196.jpg', title: 'Counter-Strike' },
-      { img: 'http://static-cdn.jtvnw.net/ttv-boxart/StarCraft%20II-140x196.jpg', title: 'StarCraft 2' },
-      { img: 'http://static-cdn.jtvnw.net/ttv-boxart/Heroes%20of%20the%20Storm-140x196.jpg', title: 'Heroes of the Storm' },
-    ]
-  },
-  {
-    section: 'Promoted channels',
-    items: [
-      { img: 'http://static-cdn.jtvnw.net/jtv_user_pictures/riotgames-profile_image-4be3ad99629ac9ba-300x300.jpeg', title: 'Riot Games' },
-      { img: 'http://static-cdn.jtvnw.net/jtv_user_pictures/emstarcraft-profile_image-340ca92c394d06e5-300x300.jpeg', title: 'FinestKO' },
-      { img: 'http://static-cdn.jtvnw.net/jtv_user_pictures/disstream-profile_image-49cb71b9ba541dcf-300x300.png', title: 'Ellhime' },
-      { img: 'http://static-cdn.jtvnw.net/jtv_user_pictures/riotgames-profile_image-4be3ad99629ac9ba-300x300.jpeg', title: 'WolfsGoRawr' },
-      { img: 'http://static-cdn.jtvnw.net/jtv_user_pictures/emstarcraft-profile_image-340ca92c394d06e5-300x300.jpeg', title: 'DethridgeCraft' },
-      { img: 'http://static-cdn.jtvnw.net/jtv_user_pictures/disstream-profile_image-49cb71b9ba541dcf-300x300.png', title: 'CohhCarnage' },
-    ]
-  }
-]
-
 
 module.exports = DrawerScreen;

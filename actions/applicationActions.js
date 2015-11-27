@@ -24,7 +24,14 @@ var actions = {
     dispatcher.dispatch({
       actionType: applicationConstants.SET_CHANNEL_ITEMS_VIEW,
       type: type,
-    }); 
+    });
+  },
+
+  setDrawerStatus: function(value) {
+    dispatcher.dispatch({
+      actionType: applicationConstants.SET_DRAWER_STATUS,
+      value: value,
+    });
   },
 };
 

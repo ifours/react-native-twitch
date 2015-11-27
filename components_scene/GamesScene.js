@@ -27,6 +27,7 @@ var GamesScreen = React.createClass({
     return {
       games: require('../mock_data/games'),
       playerStatus: appStore.getPlayerStatus(),
+      drawerStatus: appStore.getDrawerStatus(),
     }
   },
 
@@ -38,14 +39,18 @@ var GamesScreen = React.createClass({
     appStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {    
+  _onChange: function() {
     this.setState({
-      playerStatus: appStore.getPlayerStatus()
+      playerStatus: appStore.getPlayerStatus(),
+      drawerStatus: appStore.getDrawerStatus(),
     });
   },
 
   _onPressGame: function(game) {
-    this.props.closeDrawer();
+    // debugger;
+    if (this.state.drawerStatus) {
+      return this.props.closeDrawer();
+    }
 
     this.props.navigator.push({
       title: game.name,

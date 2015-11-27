@@ -183,8 +183,8 @@ var drawer = React.createClass({
     }
 
     if(this.refs.main){
-      this.refs.drawer.setNativeProps({ left: styles.drawer.left})
-      this.refs.main.setNativeProps({ left: styles.main.left})
+      this.refs.drawer.setNativeProps({style: { left: styles.drawer.left}});
+      this.refs.main.setNativeProps({style: { left: styles.main.left}});
     }
     else{
       this.stylesheet = StyleSheet.create(styles)
@@ -233,8 +233,8 @@ var drawer = React.createClass({
       mainProps = Object.assign(mainProps, propsFrag.main)
       drawerProps = Object.assign(drawerProps, propsFrag.drawer)
     }
-    this.refs.drawer.setNativeProps(drawerProps)
-    this.refs.main.setNativeProps(mainProps)
+    this.refs.drawer.setNativeProps({ style: drawerProps })
+    this.refs.main.setNativeProps({ style: mainProps })
   },
 
   shouldOpenDrawer(dx: Number) {

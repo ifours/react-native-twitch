@@ -7,15 +7,7 @@ var Dimensions = require('Dimensions');
 var SCREEN_WIDTH = Dimensions.get('window').width,
   ratio = 320 / 180;
 
-function getRandomColor() {
-  var letters = '0123456789ABCDEF'.split('');
-  var color = '#';
-
-  for (var i = 0; i < 6; i++ ) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
+var { getRandomColor } = require('../utils');
 
 var {
   StyleSheet,
@@ -30,7 +22,10 @@ var appConst = require('../constants/applicationConstants');
 
 var StreamScreen = React.createClass({
   getInitialState: function() {
-    return { msgs };
+    var msgs = require('../mock_data/msgs');
+    return {
+      msgs: msgs.concat(msgs).concat(msgs)
+    };
   },
 
   componentWillUnmount: function() {
@@ -98,22 +93,5 @@ var styles = StyleSheet.create({
   }
 
 });
-
-var msgs = [
-  { name: 'Hazzdota', text: 'Lorem ipsum dolor sit amet' },
-  { name: '5chief', text: 'consectetur adipisicing elit' },
-  { name: 'Zitraff', text: 'ed do eiusmod tempor incididunt ut' },
-  { name: 'Dubbyman', text: 'labore et dolore' },
-  { name: 'Borgg', text: 'magna aliqua. Ut enim ad minim veniam' },
-  { name: 'Titan', text: 'quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo' },
-  { name: 'BigDaddy', text: 'consequat. Duis aute irure dolor in reprehenderit' },
-  { name: 'Frommet', text: 'in voluptate velit esse' },
-  { name: 'Rolling', text: 'cillum dolore eu fugiat nulla pariatur' },
-  { name: 'Scropes', text: 'xcepteur sint occaecat cupidatat' },
-  { name: 'React', text: 'non' },
-  { name: 'Native', text: 'proident, sunt in culpa qui officia deserunt mollit anim id est laborum' },
-];
-
-msgs = msgs.concat(msgs).concat(msgs);
 
 module.exports = StreamScreen;

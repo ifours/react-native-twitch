@@ -16,17 +16,15 @@ var ChannelsTabs = React.createClass({
     return (
       <View style={styles.container}>
         <View style={styles.tab}>
-          <Image
-            style={styles.icon}
+          <Image style={styles.icon}
             source={require('image!active_channels')} />
-          
+
           <Text style={[styles.text, styles.textActive]}>Live Channels</Text>
         </View>
         <View style={styles.tab}>
-          <Image
-            style={styles.icon}
+          <Image style={styles.icon}
             source={require('image!recent')} />
-          
+
           <Text style={styles.text}>Recent Videos</Text>
         </View>
       </View>
