@@ -21,7 +21,7 @@ var ChannelsTabs = require('../components/ChannelsTabs'),
 
 var appStore = require('../stores/applicationStore');
 var appActions = require('../actions/applicationActions');
-var appConst = require('../constants/applicationConstants');
+var appConsts = require('../constants/applicationConstants');
 
 var ChannelsScene = React.createClass({
   getInitialState: function() {
@@ -55,7 +55,10 @@ var ChannelsScene = React.createClass({
       passProps: { stream },
     });
 
-    appActions.setPlayerStatus(appConst.OFF, null);
+    if (!(this.state.playerStatus === appConsts.PLAYER_OFF)) {
+      appActions.setPlayerStatus(appConsts.PLAYER_SUSPEND);
+    }
+
   },
 
 
@@ -105,21 +108,21 @@ var ChannelsScene = React.createClass({
   renderItems: function() {
     switch (this.state.itemsView) {
 
-      case appConst.GRID:
+      case appConsts.GRID:
         return this.state.channels.map(this.renderGridItem);
 
-      case appConst.LIST:
+      case appConsts.LIST:
         return this.state.channels.map(this.renderListItem);
 
-      case appConst.GRID_LIST:
+      case appConsts.GRID_LIST:
         return this.rednerGridChannels().concat(this.renderListChannels());
     }
   },
 
   render: function() {
     var marginTop = (
-      this.state.playerStatus === appConst.PLAYER_SUSPEND ||
-      this.state.playerStatus === appConst.PLAYER_ON ) ? 65 : 0;
+      this.state.playerStatus === appConsts.PLAYER_SUSPEND ||
+      this.state.playerStatus === appConsts.PLAYER_ON ) ? 65 : 0;
 
     return (
       <View style={{flex: 1, marginTop }}>

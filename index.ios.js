@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native'),
-  Drawer = require('./vendor/react-native-drawer');
+  Drawer = require('react-native-drawer');
 
 var DrawerScene = require('./components_scene/DrawerScene'),
   Player = require('./components/Player'),

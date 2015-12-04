@@ -75,7 +75,6 @@ var ChannelGridItem = React.createClass({
   },
 
   onPress: function() {
-    this.animatePressIn().start();
     this.props.onPressStream();
   },
 
