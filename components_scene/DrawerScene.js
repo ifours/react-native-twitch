@@ -191,7 +191,6 @@ var MenuList = React.createClass({
     return (
       <ListView
         style={styles.listView}
-        contentContainerStyle={{marginTop: -22}}
         initialListSize={25}
         dataSource={this.state.dataSource}
         renderSectionHeader={this.renderSectionHeader}
