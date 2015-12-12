@@ -23,3 +23,9 @@ See **Running the project** if you want to run this project.
 - [react-native requirements](https://facebook.github.io/react-native/docs/getting-started.html#requirements)
 - `npm install` to install all dependencies
 - open twitch.xcodeproj and run Twitch application
+
+## What's next
+- es6/es7
+- integrate [twitch api](https://github.com/justintv/Twitch-API)
+- [relay with custom server???](https://facebook.github.io/relay/)
+
