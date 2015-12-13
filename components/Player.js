@@ -134,13 +134,13 @@ var Player = React.createClass({
         }} >
 
         <Image style={styles.playerImage}
-          source={{uri: this.props.stream.uri}}
+          source={{uri: this.props.stream.preview.large}}
           resizeMode="contain" />
         <View style={styles.infoView}>
           <Text style={styles.titleText}
             numberOfLines={1} >
 
-            {this.props.stream.name}
+            {this.props.stream.channel.display_name}
           </Text>
           <Text style={{color: '#694BA6', fontWeight: '400'}}
             numberOfLines={1} >

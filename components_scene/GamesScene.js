@@ -13,6 +13,8 @@ var {
   ScrollView,
   NavigatorIOS,
   TouchableHighlight,
+  ActivityIndicatorIOS,
+  AlertIOS,
   StatusBarIOS,
 } = React;
 
@@ -21,18 +23,25 @@ var ChannelsScene = require('./ChannelsScene'),
 
 var appStore = require('../stores/applicationStore');
 var appConst = require('../constants/applicationConstants');
+var kraken = require('../services/kraken');
 
 var GamesScreen = React.createClass({
   getInitialState: function() {
     return {
-      games: require('../mock_data/games'),
+      games: [],
       playerStatus: appStore.getPlayerStatus(),
       drawerStatus: appStore.getDrawerStatus(),
     }
   },
 
   componentDidMount: function() {
-    appStore.addChangeListener(this._onChange);
+    appStore.addChangeListener(this._onChange)
+
+    kraken.getGames().then((body) => {
+      this.setState({ games: body.top });
+    }).catch(() => {
+      AlertIOS.alert('Twitch server error');
+    });
   },
 
   componentWillUnmount: function() {
@@ -47,7 +56,6 @@ var GamesScreen = React.createClass({
   },
 
   _onPressGame: function(game) {
-    // debugger;
     if (this.state.drawerStatus) {
       return this.props.closeDrawer();
     }
@@ -59,8 +67,9 @@ var GamesScreen = React.createClass({
     });
   },
 
-  renderGame: function(game) {
-    return <Game game={game} key={game.key} onPressGame={() => this._onPressGame(game) }/>
+  renderGame: function(item) {
+    var game = item.game;
+    return <Game game={game} key={game._id} onPressGame={() => this._onPressGame(game) }/>
   },
 
   renderGames: function() {
@@ -74,7 +83,9 @@ var GamesScreen = React.createClass({
 
     return (
       <ScrollView contentContainerStyle={[styles.container, { marginTop }]}>
-        {this.renderGames()}
+        {this.state.games.length ? this.renderGames() : <ActivityIndicatorIOS
+          style={styles.centering}
+          size="large" />}
       </ScrollView>
     );
   }
@@ -86,7 +97,13 @@ var styles = StyleSheet.create({
     flexWrap: 'wrap',
 
     paddingBottom: 10,
-  }
+  },
+  centering: {
+    flex: 1,
+    height: 80,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 module.exports = GamesScreen;

@@ -11,6 +11,8 @@ var {
   PixelRatio,
   Text,
   Animated,
+  ActivityIndicatorIOS,
+  AlertIOS,
   TouchableHighlight,
 } = React;
 
@@ -22,11 +24,12 @@ var ChannelsTabs = require('../components/ChannelsTabs'),
 var appStore = require('../stores/applicationStore');
 var appActions = require('../actions/applicationActions');
 var appConsts = require('../constants/applicationConstants');
+var kraken = require('../services/kraken');
 
 var ChannelsScene = React.createClass({
   getInitialState: function() {
     return {
-      channels: require('../mock_data/streams'),
+      channels: [],
       gridCount: 4,
       itemsView: appStore.getChannelItemsView(),
       playerStatus: appStore.getPlayerStatus(),
@@ -35,6 +38,12 @@ var ChannelsScene = React.createClass({
 
   componentDidMount: function() {
     appStore.addChangeListener(this._onChange);
+
+    kraken.getStreams(this.props.game.name).then((body) => {
+      this.setState({ channels: body.streams });
+    }).catch(() => {
+      AlertIOS.alert('Twitch server error');
+    });
   },
 
   componentWillUnmount: function() {
@@ -50,7 +59,7 @@ var ChannelsScene = React.createClass({
 
   _onPressStream: function(stream) {
     this.props.navigator.push({
-      title: stream.title,
+      title: stream.channel.status,
       component: StreamScene,
       passProps: { stream },
     });
@@ -62,21 +71,25 @@ var ChannelsScene = React.createClass({
   },
 
 
-  renderGridItem: function(stream) {
+  renderGridItem: function(stream, index) {
     return (
       <ChannelGridItem {...this.props}
         onPressStream={ () =>  this._onPressStream(stream) }
-        stream={stream}
-        key={stream.key} />
+        stream={stream.channel}
+        itemIndex={index}
+        preview={stream.preview.large}
+        key={stream._id} />
     )
   },
 
-  renderListItem: function(stream) {
+  renderListItem: function(stream, index) {
     return (
       <ChannelListItem {...this.props}
-        onPressStream={ () => this._onPressStream(stream) }
-        stream={stream}
-        key={stream.key} />
+        onPressStream={ () =>  this._onPressStream(stream) }
+        stream={stream.channel}
+        itemIndex={index}
+        preview={stream.preview.large}
+        key={stream._id} />
     )
   },
 
@@ -127,7 +140,9 @@ var ChannelsScene = React.createClass({
     return (
       <View style={{flex: 1, marginTop }}>
         <ScrollView style={{ marginBottom: 50 }}>
-          {this.renderItems()}
+          {this.state.channels.length ? this.renderItems() : <ActivityIndicatorIOS
+            style={styles.centering}
+            size="large" />}
         </ScrollView>
         <ChannelsTabs />
       </View>
@@ -136,7 +151,12 @@ var ChannelsScene = React.createClass({
 });
 
 var styles = StyleSheet.create({
-
+  centering: {
+    flex: 1,
+    height: 80,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 module.exports = ChannelsScene;

@@ -48,7 +48,7 @@ var GameItem = React.createClass({
             </Image>
             <Animated.Image
               style={[styles.gameImg, {opacity: this.state.bounceValue}]}
-              source={{uri: this.props.game.uri}}
+              source={{uri: this.props.game.box.large}}
               resizeMode="contain"
               onLoad={ this._onImageLoad }
             />

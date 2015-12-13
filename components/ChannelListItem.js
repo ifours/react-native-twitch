@@ -44,19 +44,19 @@ var ChannelListItem = React.createClass({
 
           <View style={styles.streamView} >
             <Image style={styles.streamImage}
-              source={{uri: this.props.stream.uri}}
+              source={{uri: this.props.preview}}
               resizeMode="contain"  />
 
             <View style={styles.infoView}>
               <Text style={styles.titleText}
                 numberOfLines={1} >
 
-                {this.props.stream.streamer}
+                {this.props.stream.display_name}
               </Text>
               <Text style={styles.nameText}
                 numberOfLines={1} >
 
-                {this.props.stream.name}
+                {this.props.stream.status}
               </Text>
               <Text style={styles.viewersText}
                 numberOfLines={1} >

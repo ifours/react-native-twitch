@@ -50,7 +50,7 @@ var StreamScreen = React.createClass({
         <View>
           <Image
             style={styles.mainImg}
-            source={{uri: this.props.stream.uri}}
+            source={{uri: this.props.stream.preview.large}}
             resizeMode="contain"
           />
         </View>

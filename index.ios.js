@@ -117,7 +117,6 @@ var App = React.createClass({
   },
 
   render: function() {
-    console.log(this.state.isDrawerOpened);
     return (
       <Drawer ref="drawer"
         type="static"

@@ -23,7 +23,7 @@ var ChannelGridItem = React.createClass({
     return {
       bounceValueScale: new Animated.Value(1),
       bounceValueOpacity: new Animated.Value(0),
-      bounceValueTranslateY: new Animated.Value(-200 * (this.props.stream.key + 1))
+      bounceValueTranslateY: new Animated.Value(-200 * (this.props.itemIndex + 1))
     };
   },
 
@@ -95,6 +95,7 @@ var ChannelGridItem = React.createClass({
   },
 
   render: function() {
+    // debugger;
     return (
       <TouchableHighlight
 
@@ -111,12 +112,12 @@ var ChannelGridItem = React.createClass({
               { translateY: this.state.bounceValueTranslateY },
               { scale: this.state.bounceValueScale }
             ],
-            marginTop: this.props.stream.key === 0 ? 10 : 0,
+            marginTop: this.props.itemIndex === 0 ? 10 : 0,
           }]} >
 
           <Image
             style={styles.streamView}
-            source={{uri: this.props.stream.uri}}
+            source={{uri: this.props.preview}}
             resizeMode="contain" >
 
             <LinearGradient colors={['rgba(0,0,0,0)', 'rgb(0,0,0,1)']} style={styles.streamBox}>
@@ -124,10 +125,10 @@ var ChannelGridItem = React.createClass({
                 style={styles.streamTitleText}
                 numberOfLines={1} >
 
-                {this.props.stream.title}
+                {this.props.stream.display_name}
               </Text>
-              <Text style={styles.streamNameText}>
-                {this.props.stream.name}
+              <Text style={styles.streamNameText} numberOfLines={2}>
+                {this.props.stream.status}
               </Text>
               <Text style={styles.streamViewesText}>
                 {this.props.stream.views} <Text style={{fontWeight: '200',}}>viewers</Text>
