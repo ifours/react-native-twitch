@@ -28,5 +28,6 @@ See **Running the project** if you want to run this project.
 - es6/es7
 - ~~integrate [twitch api](https://github.com/justintv/Twitch-API)~~
 - [relay with custom server???](https://facebook.github.io/relay/)
+- Android version???
 - Settings component for ChannelsScene.
 
