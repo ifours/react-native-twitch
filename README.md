@@ -1,3 +1,7 @@
+# Notes
+
+I'm going to rewrite this project 😉. Be ready to new Twitch application.
+
 # Twitch
 
 This project was built for [The Rolling Scopes](http://rollingscopes.com/) #18 meetup.
